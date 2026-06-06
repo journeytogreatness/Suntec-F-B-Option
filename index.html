@@ -531,7 +531,8 @@
                 ? restaurants 
                 : restaurants.filter(r => r.category === currentFilter);
             
-            const html = filtered.map(r => `
+            const html = filtered.map(r => {
+                return `
                 <tr>
                     <td>\${r.name}</td>
                     <td>\${r.category}</td>
@@ -541,10 +542,11 @@
                     <td>\${r.phone}</td>
                     <td>\${r.timesChosen}</td>
                     <td>
-                        <button class="btn-danger btn-small" onclick="deleteRestaurant('\${r.id}')">Delete</button>
+                        <button class="btn-danger btn-small" onclick="deleteRestaurant(\${r.id})">Delete</button>
                     </td>
                 </tr>
-            `).join('') || '<tr><td colspan="8" style="text-align:center;">No restaurants</td></tr>';
+            `;
+            }).join('') || '<tr><td colspan="8" style="text-align:center;">No restaurants</td></tr>';
             
             document.getElementById('databaseTable').innerHTML = html;
         }
@@ -602,8 +604,11 @@
         }
 
         function deleteRestaurant(id) {
+            id = parseInt(id);
             if (confirm('Delete this restaurant?')) {
-                restaurants = restaurants.filter(r => r.id !== parseInt(id));
+                restaurants = restaurants.filter(r => {
+                    return r.id !== id;
+                });
                 saveData();
                 renderUI();
             }
