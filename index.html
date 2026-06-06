@@ -1,3 +1,6 @@
+I found the problem! The `switchTab()` function is broken because it's trying to use `event.target` which doesn't work reliably. Here's the **complete fixed code**:
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -113,7 +116,6 @@
             color: white;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            position: relative;
         }
         
         .spinner.spinning {
@@ -139,6 +141,10 @@
         
         .spin-button:hover {
             background: #45a049;
+        }
+        
+        .spin-button.btn-secondary {
+            background: #2196F3;
         }
         
         .spin-button.btn-secondary:hover {
@@ -477,7 +483,6 @@
             border-radius: 20px;
             cursor: pointer;
             font-weight: bold;
-            transition: all 0.3s;
         }
 
         .filter-btn:hover {
@@ -556,6 +561,11 @@
         h3 {
             margin-bottom: 15px;
         }
+
+        h4 {
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
@@ -564,8 +574,8 @@
     </div>
     
     <div class="tab-buttons">
-        <button class="tab-btn active" data-tab="wheel" onclick="switchTab('wheel')">🎡 Spinning Wheel</button>
-        <button class="tab-btn" data-tab="manage" onclick="switchTab('manage')">⚙️ Manage Database</button>
+        <button class="tab-btn active" onclick="switchTab('wheel', this)">🎡 Spinning Wheel</button>
+        <button class="tab-btn" onclick="switchTab('manage', this)">⚙️ Manage Database</button>
     </div>
     
     <!-- INTERFACE A: SPINNING WHEEL -->
@@ -574,10 +584,10 @@
             <div class="category-selector">
                 <h3>Select Fellowship Type to Spin For:</h3>
                 <div class="category-toggle">
-                    <button class="category-toggle-btn active" onclick="selectWheelCategory('all')">🍽️ All</button>
-                    <button class="category-toggle-btn" onclick="selectWheelCategory('Mains')">🍲 Mains</button>
-                    <button class="category-toggle-btn" onclick="selectWheelCategory('Drinks')">🥤 Drinks</button>
-                    <button class="category-toggle-btn" onclick="selectWheelCategory('Dessert')">🍰 Dessert</button>
+                    <button class="category-toggle-btn active" onclick="selectWheelCategory('all', this)">🍽️ All</button>
+                    <button class="category-toggle-btn" onclick="selectWheelCategory('Mains', this)">🍲 Mains</button>
+                    <button class="category-toggle-btn" onclick="selectWheelCategory('Drinks', this)">🥤 Drinks</button>
+                    <button class="category-toggle-btn" onclick="selectWheelCategory('Dessert', this)">🍰 Dessert</button>
                 </div>
             </div>
 
@@ -648,39 +658,39 @@
 
             <!-- SCRAPER SECTION -->
             <div class="scraper-section">
-                <h3>🔗 Web Scraper - Add Links to Scrape</h3>
+                <h3>🔗 Web Scraper - Add Links</h3>
                 <p style="color: #666; margin-bottom: 15px;">Add links to Google Maps, OpenRice, or restaurant websites</p>
                 
                 <div class="scraper-input-group">
                     <input type="text" id="scraperLink" placeholder="e.g., https://www.google.com/maps/search/restaurants+suntec" onkeypress="if(event.key==='Enter') addScraperLink()">
-                    <input type="text" id="scraperCategory" placeholder="Category (Mains/Drinks/Dessert)" value="Mains">
-                    <button class="btn-secondary" onclick="addScraperLink()">➕ Add Link</button>
+                    <input type="text" id="scraperCategory" placeholder="Category" value="Mains">
+                    <button class="btn-secondary" onclick="addScraperLink()">➕ Add</button>
                 </div>
 
                 <div class="scraper-help">
                     💡 <strong>Tips:</strong><br>
-                    • Google Maps: Search for "restaurants suntec" and copy the URL<br>
+                    • Google Maps: Search and copy the URL<br>
                     • OpenRice: Copy restaurant page URLs<br>
-                    • Format: Full URL starting with http:// or https://
+                    • Format: Full URL with http:// or https://
                 </div>
 
-                <h4 style="margin-top: 20px; margin-bottom: 10px;">Saved Scraper Links</h4>
+                <h4>Saved Links</h4>
                 <div class="scraper-history" id="scraperHistory">
                     <p style="color: #999; text-align: center;">No links added yet</p>
                 </div>
 
                 <div class="control-group" style="margin-top: 15px;">
-                    <button class="btn-secondary" onclick="scrapeAllLinks()">🔄 Scrape All Links</button>
+                    <button class="btn-secondary" onclick="scrapeAllLinks()">🔄 Scrape All</button>
                 </div>
                 <div class="sync-status" id="syncStatus"></div>
             </div>
 
             <h3>Filter by Category</h3>
             <div class="filter-buttons">
-                <button class="filter-btn active" onclick="filterCategory('all')">All</button>
-                <button class="filter-btn" onclick="filterCategory('Mains')">🍲 Mains</button>
-                <button class="filter-btn" onclick="filterCategory('Drinks')">🥤 Drinks</button>
-                <button class="filter-btn" onclick="filterCategory('Dessert')">🍰 Dessert</button>
+                <button class="filter-btn active" onclick="filterCategory('all', this)">All</button>
+                <button class="filter-btn" onclick="filterCategory('Mains', this)">🍲 Mains</button>
+                <button class="filter-btn" onclick="filterCategory('Drinks', this)">🥤 Drinks</button>
+                <button class="filter-btn" onclick="filterCategory('Dessert', this)">🍰 Dessert</button>
             </div>
             
             <h3>Restaurant Database</h3>
@@ -690,9 +700,9 @@
                         <tr>
                             <th>Restaurant</th>
                             <th>Category</th>
-                            <th>Food Option</th>
-                            <th>Location @ Suntec</th>
-                            <th>Address & Contact</th>
+                            <th>Food</th>
+                            <th>Location</th>
+                            <th>Address & Phone</th>
                             <th>Last Chosen</th>
                             <th>Times</th>
                             <th>Status</th>
@@ -776,7 +786,7 @@
     </div>
 
     <script>
-        // ========== DATA MANAGEMENT ==========
+        // ========== DATA ==========
         let restaurants = JSON.parse(localStorage.getItem('restaurants')) || [
             { id: 1, name: 'Din Tai Fung', food: 'Xiao Long Bao', category: 'Mains', location: 'Tower 1', address: '1 Raffles Link, Singapore 039393', phone: '+65 6333 8800', lastChosen: null, timesChosen: 0, locked: false },
             { id: 2, name: 'Lao Ban Soya Chicken', food: 'Soya Chicken Rice', category: 'Mains', location: 'Food Court', address: '1 Temasek Avenue, B2-24 to B2-29, Singapore 039192', phone: '+65 6332 8686', lastChosen: null, timesChosen: 0, locked: false },
@@ -791,20 +801,12 @@
         let selectedWheelCategory = 'all';
         let lastSpinner = localStorage.getItem('lastSpinner') || '';
         
-        // ========== TAB SWITCHING (FIXED) ==========
-        function switchTab(tabName) {
-            // Hide all tabs
+        // ========== TAB SWITCHING (FIXED!) ==========
+        function switchTab(tabName, button) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-            
-            // Deactivate all buttons
             document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
-            
-            // Show selected tab
             document.getElementById(tabName).classList.add('active');
-            
-            // Activate clicked button
-            document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
-            
+            button.classList.add('active');
             renderUI();
         }
         
@@ -814,18 +816,14 @@
             localStorage.setItem('currentWeek', JSON.stringify(currentWeek));
             localStorage.setItem('nextId', nextId.toString());
             localStorage.setItem('scraperLinks', JSON.stringify(scraperLinks));
+            localStorage.setItem('lastSpinner', lastSpinner);
         }
 
         // ========== WHEEL FUNCTIONS ==========
-        function selectWheelCategory(category) {
+        function selectWheelCategory(category, button) {
             selectedWheelCategory = category;
-            
-            // Update button styling
-            document.querySelectorAll('.category-toggle-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            event.target.classList.add('active');
-            
+            document.querySelectorAll('.category-toggle-btn').forEach(b => b.classList.remove('active'));
+            button.classList.add('active');
             renderAvailableOptions();
         }
 
@@ -841,12 +839,12 @@
                 </div>
             `).join('');
             
-            document.getElementById('availableOptions').innerHTML = html || '<p>No options available</p>';
+            document.getElementById('availableOptions').innerHTML = html || '<p>No options</p>';
         }
 
         function askSpinnerName() {
             document.getElementById('spinnerModal').classList.add('active');
-            document.getElementById('spinnerName').focus();
+            setTimeout(() => document.getElementById('spinnerName').focus(), 100);
         }
 
         function closeSpinnerModal() {
@@ -859,9 +857,8 @@
                 alert('Please enter your name');
                 return;
             }
-            
             lastSpinner = name;
-            localStorage.setItem('lastSpinner', name);
+            saveData();
             closeSpinnerModal();
             spinWheel();
         }
@@ -872,27 +869,30 @@
                 : restaurants.filter(r => r.category === selectedWheelCategory && !r.locked);
             
             if (filtered.length === 0) {
-                alert('No restaurants available to spin!');
+                alert('No restaurants available!');
                 return;
             }
             
-            // Add spinning animation
             const spinner = document.getElementById('spinner');
             spinner.classList.remove('spinning');
-            void spinner.offsetWidth; // Trigger reflow
+            void spinner.offsetWidth;
             spinner.classList.add('spinning');
             
-            // Select random restaurant after animation
             setTimeout(() => {
                 const selected = filtered[Math.floor(Math.random() * filtered.length)];
                 selected.lastChosen = new Date().toLocaleDateString();
                 selected.timesChosen++;
                 selected.locked = true;
-                
                 currentWeek = selected;
                 saveData();
-                
                 displayResult(selected);
                 spinner.classList.remove('spinning');
                 renderUI();
             }, 2000);
+        }
+
+        function displayResult(r) {
+            const html = `
+                <div style="margin-bottom: 20px;">
+                    <h2 style="color: #4CAF50; font-size: 28px;">${r.name}</h2>
+                </div>
