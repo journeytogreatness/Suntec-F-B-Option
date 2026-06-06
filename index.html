@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,36 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Suntec Food Wheel - Management System</title>
     <style>
-        * { 
-            margin: 0; 
-            padding: 0; 
-            box-sizing: border-box; 
-        }
-        
-        body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f5f5f5; 
-            color: #333;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background: #f5f5f5; }
         
         .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #333;
             color: white;
             padding: 20px;
             text-align: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        
-        .header h1 {
-            font-size: 32px;
-            margin: 0;
         }
         
         .tab-buttons {
             display: flex;
             background: #444;
             padding: 0;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
         
         .tab-btn {
@@ -47,7 +30,6 @@
             cursor: pointer;
             font-size: 16px;
             font-weight: 600;
-            transition: all 0.3s ease;
         }
         
         .tab-btn:hover {
@@ -60,17 +42,11 @@
         
         .tab-content {
             display: none;
-            padding: 30px 20px;
-            animation: fadeIn 0.3s ease;
+            padding: 20px;
         }
         
         .tab-content.active {
             display: block;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
         }
         
         /* INTERFACE A - Spinning Wheel */
@@ -81,20 +57,19 @@
         
         .spinner-wrapper {
             text-align: center;
-            padding: 40px 20px;
+            padding: 40px;
         }
 
         .category-selector {
             background: white;
             padding: 20px;
-            border-radius: 8px;
+            border-radius: 5px;
             margin-bottom: 30px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
         .category-selector h3 {
             margin-bottom: 15px;
-            color: #333;
         }
 
         .category-toggle {
@@ -108,16 +83,15 @@
             padding: 10px 20px;
             border: 2px solid #ddd;
             background: white;
-            border-radius: 25px;
+            border-radius: 20px;
             cursor: pointer;
-            font-weight: 600;
+            font-weight: bold;
             font-size: 14px;
-            transition: all 0.3s ease;
+            transition: all 0.3s;
         }
 
         .category-toggle-btn:hover {
             border-color: #4CAF50;
-            transform: translateY(-2px);
         }
 
         .category-toggle-btn.active {
@@ -134,11 +108,11 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 80px;
+            font-size: 60px;
             font-weight: bold;
             color: white;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
             position: relative;
         }
         
@@ -156,34 +130,31 @@
             color: white;
             padding: 15px 40px;
             font-size: 16px;
-            font-weight: 600;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             margin: 10px;
-            transition: all 0.3s ease;
+            font-weight: 600;
         }
         
         .spin-button:hover {
             background: #45a049;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
         
-        .spin-button:active {
-            transform: translateY(0);
+        .spin-button.btn-secondary:hover {
+            background: #0b7dda;
         }
         
         .result-box {
-            background: white;
+            background: #fff;
             padding: 30px;
             margin-top: 30px;
-            border-radius: 8px;
+            border-radius: 5px;
             text-align: center;
             min-height: 150px;
             font-size: 24px;
             font-weight: bold;
-            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
         
         .result-details {
@@ -195,11 +166,10 @@
         }
         
         .result-details div {
-            margin: 10px 0;
-            padding: 10px;
+            margin: 8px 0;
+            padding: 8px;
             background: #f9f9f9;
-            border-left: 4px solid #4CAF50;
-            border-radius: 3px;
+            border-left: 3px solid #4CAF50;
         }
         
         .result-buttons {
@@ -211,7 +181,7 @@
         }
         
         .result-buttons a, .result-buttons button {
-            padding: 10px 20px;
+            padding: 10px 15px;
             font-size: 14px;
             border: none;
             border-radius: 5px;
@@ -219,12 +189,6 @@
             text-decoration: none;
             color: white;
             font-weight: 600;
-            transition: all 0.3s ease;
-        }
-        
-        .result-buttons a:hover, .result-buttons button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
         
         .call-btn {
@@ -244,45 +208,36 @@
         }
         
         .history-small {
-            background: white;
+            background: #fff;
             padding: 20px;
-            margin-top: 30px;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-top: 20px;
+            border-radius: 5px;
         }
 
         .available-options {
-            background: white;
+            background: #fff;
             padding: 20px;
             margin-top: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-radius: 5px;
         }
 
         .options-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 15px;
+            gap: 10px;
             margin-top: 15px;
         }
 
         .option-card {
             background: #f9f9f9;
-            padding: 15px;
-            border-radius: 6px;
-            border-left: 4px solid #4CAF50;
-            transition: all 0.3s ease;
-        }
-
-        .option-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            padding: 12px;
+            border-radius: 5px;
+            border-left: 3px solid #4CAF50;
         }
 
         .option-card strong {
             display: block;
             margin-bottom: 5px;
-            color: #333;
         }
 
         .option-card small {
@@ -299,14 +254,13 @@
         .controls {
             background: white;
             padding: 20px;
-            border-radius: 8px;
+            border-radius: 5px;
             margin-bottom: 20px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
-        
+
         .controls h3 {
             margin-bottom: 15px;
-            color: #333;
         }
         
         .control-group {
@@ -321,13 +275,6 @@
             border: 1px solid #ddd;
             border-radius: 5px;
             font-size: 14px;
-            transition: border 0.3s ease;
-        }
-        
-        input:focus, select:focus, textarea:focus {
-            outline: none;
-            border-color: #4CAF50;
-            box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
         }
         
         input, textarea {
@@ -342,7 +289,6 @@
             cursor: pointer;
             font-size: 14px;
             font-weight: 600;
-            transition: all 0.3s ease;
         }
         
         .btn-primary {
@@ -352,7 +298,6 @@
         
         .btn-primary:hover {
             background: #45a049;
-            transform: translateY(-2px);
         }
         
         .btn-secondary {
@@ -362,7 +307,6 @@
         
         .btn-secondary:hover {
             background: #0b7dda;
-            transform: translateY(-2px);
         }
         
         .btn-danger {
@@ -372,25 +316,24 @@
         
         .btn-danger:hover {
             background: #da190b;
-            transform: translateY(-2px);
         }
         
         .btn-small {
-            padding: 6px 12px;
+            padding: 5px 10px;
             font-size: 12px;
-            margin: 2px;
         }
         
         .table-wrapper {
             overflow-x: auto;
-            border-radius: 8px;
         }
         
         table {
             width: 100%;
             border-collapse: collapse;
             background: white;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
         
         th, td {
@@ -411,12 +354,12 @@
         }
         
         .locked {
-            background: #ffcccc !important;
+            background: #ffcccc;
         }
         
         .status-badge {
             display: inline-block;
-            padding: 5px 12px;
+            padding: 5px 10px;
             border-radius: 20px;
             font-size: 11px;
             font-weight: bold;
@@ -433,12 +376,11 @@
         }
         
         .sync-status {
-            padding: 15px;
+            padding: 10px;
             margin-top: 10px;
             border-radius: 5px;
             text-align: center;
             display: none;
-            font-weight: 600;
         }
         
         .sync-status.success {
@@ -456,34 +398,33 @@
         .contact-info {
             font-size: 12px;
             color: #666;
-            line-height: 1.6;
+            line-height: 1.4;
         }
         
         .modal {
             display: none;
             position: fixed;
-            z-index: 100;
+            z-index: 1000;
             left: 0;
             top: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0,0,0,0.5);
-            animation: fadeIn 0.3s ease;
+            background-color: rgba(0,0,0,0.4);
+            overflow: auto;
         }
         
         .modal.active {
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: block;
         }
         
         .modal-content {
-            background-color: white;
-            padding: 30px;
-            border-radius: 8px;
+            background-color: #fefefe;
+            margin: 10% auto;
+            padding: 20px;
+            border: 1px solid #888;
             width: 90%;
             max-width: 600px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            border-radius: 5px;
         }
         
         .modal-header {
@@ -492,7 +433,7 @@
             align-items: center;
             margin-bottom: 20px;
         }
-        
+
         .modal-header h2 {
             margin: 0;
         }
@@ -502,7 +443,6 @@
             font-weight: bold;
             cursor: pointer;
             color: #aaa;
-            transition: color 0.3s ease;
         }
         
         .close-btn:hover {
@@ -517,7 +457,6 @@
             display: block;
             font-weight: bold;
             margin-bottom: 5px;
-            color: #333;
         }
         
         .form-group input, .form-group textarea, .form-group select {
@@ -535,15 +474,14 @@
             padding: 8px 16px;
             border: 2px solid #ddd;
             background: white;
-            border-radius: 25px;
+            border-radius: 20px;
             cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s ease;
+            font-weight: bold;
+            transition: all 0.3s;
         }
 
         .filter-btn:hover {
             border-color: #4CAF50;
-            transform: translateY(-2px);
         }
 
         .filter-btn.active {
@@ -552,32 +490,15 @@
             border-color: #4CAF50;
         }
 
-        .spinner-name-display {
-            background: #e3f2fd;
-            padding: 15px;
-            border-radius: 5px;
-            margin-top: 15px;
-            text-align: center;
-            font-weight: bold;
-            color: #1976d2;
-        }
-
         .scraper-section {
             background: #f0f0f0;
             padding: 20px;
-            border-radius: 8px;
+            border-radius: 5px;
             margin-bottom: 20px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
 
         .scraper-section h3 {
             margin-top: 0;
-            color: #333;
-        }
-
-        .scraper-section p {
-            margin-top: 5px;
-            margin-bottom: 15px;
         }
 
         .scraper-input-group {
@@ -589,17 +510,16 @@
 
         .scraper-input-group input {
             flex: 1;
-            min-width: 200px;
+            min-width: 250px;
         }
 
         .scraper-help {
             background: #fff3cd;
-            padding: 12px;
-            border-left: 4px solid #ff9800;
+            padding: 10px;
+            border-left: 3px solid #ff9800;
             margin-top: 10px;
             border-radius: 3px;
             font-size: 12px;
-            line-height: 1.6;
         }
 
         .scraper-history {
@@ -608,23 +528,21 @@
 
         .scraper-link-item {
             background: white;
-            padding: 12px;
+            padding: 10px;
             border-radius: 5px;
             margin-bottom: 8px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        }
-
-        .scraper-link-item > div {
-            flex: 1;
         }
 
         .scraper-link-item a {
             color: #2196F3;
             text-decoration: none;
-            word-break: break-all;
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
         .scraper-link-item a:hover {
@@ -633,22 +551,10 @@
 
         .scraper-link-item button {
             margin-left: 10px;
-            white-space: nowrap;
-        }
-
-        .no-data {
-            text-align: center;
-            padding: 30px;
-            color: #999;
         }
 
         h3 {
-            margin-top: 20px;
             margin-bottom: 15px;
-        }
-
-        h4 {
-            color: #333;
         }
     </style>
 </head>
@@ -658,8 +564,8 @@
     </div>
     
     <div class="tab-buttons">
-        <button class="tab-btn active" onclick="switchTab(event, 'wheel')">🎡 Spinning Wheel</button>
-        <button class="tab-btn" onclick="switchTab(event, 'manage')">⚙️ Manage Database</button>
+        <button class="tab-btn active" data-tab="wheel" onclick="switchTab('wheel')">🎡 Spinning Wheel</button>
+        <button class="tab-btn" data-tab="manage" onclick="switchTab('manage')">⚙️ Manage Database</button>
     </div>
     
     <!-- INTERFACE A: SPINNING WHEEL -->
@@ -668,10 +574,10 @@
             <div class="category-selector">
                 <h3>Select Fellowship Type to Spin For:</h3>
                 <div class="category-toggle">
-                    <button class="category-toggle-btn active" onclick="selectWheelCategory(event, 'all')">🍽️ All</button>
-                    <button class="category-toggle-btn" onclick="selectWheelCategory(event, 'Mains')">🍲 Mains</button>
-                    <button class="category-toggle-btn" onclick="selectWheelCategory(event, 'Drinks')">🥤 Drinks</button>
-                    <button class="category-toggle-btn" onclick="selectWheelCategory(event, 'Dessert')">🍰 Dessert</button>
+                    <button class="category-toggle-btn active" onclick="selectWheelCategory('all')">🍽️ All</button>
+                    <button class="category-toggle-btn" onclick="selectWheelCategory('Mains')">🍲 Mains</button>
+                    <button class="category-toggle-btn" onclick="selectWheelCategory('Drinks')">🥤 Drinks</button>
+                    <button class="category-toggle-btn" onclick="selectWheelCategory('Dessert')">🍰 Dessert</button>
                 </div>
             </div>
 
@@ -687,8 +593,6 @@
                 <button class="spin-button" onclick="askSpinnerName()">🎡 SPIN WHEEL</button>
                 <button class="spin-button btn-secondary" onclick="resetWeek()">Reset Week</button>
             </div>
-
-            <div id="spinnerDisplay" class="spinner-name-display" style="display:none;"></div>
             
             <div class="result-box" id="result">Click SPIN to pick this week's fellowship!</div>
             
@@ -744,25 +648,25 @@
 
             <!-- SCRAPER SECTION -->
             <div class="scraper-section">
-                <h3>🔗 Web Scraper - Add Links</h3>
-                <p>Add links to Google Maps, OpenRice, or restaurant websites</p>
+                <h3>🔗 Web Scraper - Add Links to Scrape</h3>
+                <p style="color: #666; margin-bottom: 15px;">Add links to Google Maps, OpenRice, or restaurant websites</p>
                 
                 <div class="scraper-input-group">
                     <input type="text" id="scraperLink" placeholder="e.g., https://www.google.com/maps/search/restaurants+suntec" onkeypress="if(event.key==='Enter') addScraperLink()">
-                    <input type="text" id="scraperCategory" placeholder="Category" value="Mains">
-                    <button class="btn-secondary" onclick="addScraperLink()">➕ Add</button>
+                    <input type="text" id="scraperCategory" placeholder="Category (Mains/Drinks/Dessert)" value="Mains">
+                    <button class="btn-secondary" onclick="addScraperLink()">➕ Add Link</button>
                 </div>
 
                 <div class="scraper-help">
                     💡 <strong>Tips:</strong><br>
-                    • Google Maps: Search and copy the URL<br>
+                    • Google Maps: Search for "restaurants suntec" and copy the URL<br>
                     • OpenRice: Copy restaurant page URLs<br>
-                    • Format: Full URL with http:// or https://
+                    • Format: Full URL starting with http:// or https://
                 </div>
 
-                <h4 style="margin-top: 20px;">Saved Links</h4>
+                <h4 style="margin-top: 20px; margin-bottom: 10px;">Saved Scraper Links</h4>
                 <div class="scraper-history" id="scraperHistory">
-                    <p class="no-data">No links added yet</p>
+                    <p style="color: #999; text-align: center;">No links added yet</p>
                 </div>
 
                 <div class="control-group" style="margin-top: 15px;">
@@ -773,10 +677,10 @@
 
             <h3>Filter by Category</h3>
             <div class="filter-buttons">
-                <button class="filter-btn active" onclick="filterCategory(event, 'all')">All</button>
-                <button class="filter-btn" onclick="filterCategory(event, 'Mains')">🍲 Mains</button>
-                <button class="filter-btn" onclick="filterCategory(event, 'Drinks')">🥤 Drinks</button>
-                <button class="filter-btn" onclick="filterCategory(event, 'Dessert')">🍰 Dessert</button>
+                <button class="filter-btn active" onclick="filterCategory('all')">All</button>
+                <button class="filter-btn" onclick="filterCategory('Mains')">🍲 Mains</button>
+                <button class="filter-btn" onclick="filterCategory('Drinks')">🥤 Drinks</button>
+                <button class="filter-btn" onclick="filterCategory('Dessert')">🍰 Dessert</button>
             </div>
             
             <h3>Restaurant Database</h3>
@@ -787,7 +691,7 @@
                             <th>Restaurant</th>
                             <th>Category</th>
                             <th>Food Option</th>
-                            <th>Location</th>
+                            <th>Location @ Suntec</th>
                             <th>Address & Contact</th>
                             <th>Last Chosen</th>
                             <th>Times</th>
@@ -874,43 +778,121 @@
     <script>
         // ========== DATA MANAGEMENT ==========
         let restaurants = JSON.parse(localStorage.getItem('restaurants')) || [
-            { 
-                id: 1, 
-                name: 'Din Tai Fung', 
-                food: 'Xiao Long Bao', 
-                category: 'Mains',
-                location: 'Tower 1', 
-                address: '1 Raffles Link, Singapore 039393',
-                phone: '+65 6333 8800',
-                lastChosen: null, 
-                timesChosen: 0, 
-                locked: false 
-            },
-            { 
-                id: 2, 
-                name: 'Lao Ban Soya Chicken', 
-                food: 'Soya Chicken Rice', 
-                category: 'Mains',
-                location: 'Food Court', 
-                address: '1 Temasek Avenue, B2-24 to B2-29, Singapore 039192',
-                phone: '+65 6332 8686',
-                lastChosen: null, 
-                timesChosen: 0, 
-                locked: false 
-            },
-            { 
-                id: 3, 
-                name: 'Ichiban Ramen', 
-                food: 'Tonkotsu Ramen', 
-                category: 'Mains',
-                location: 'Tower 2', 
-                address: '1 Temasek Avenue, Singapore 039192',
-                phone: '+65 6333 3688',
-                lastChosen: null, 
-                timesChosen: 0, 
-                locked: false 
-            }
+            { id: 1, name: 'Din Tai Fung', food: 'Xiao Long Bao', category: 'Mains', location: 'Tower 1', address: '1 Raffles Link, Singapore 039393', phone: '+65 6333 8800', lastChosen: null, timesChosen: 0, locked: false },
+            { id: 2, name: 'Lao Ban Soya Chicken', food: 'Soya Chicken Rice', category: 'Mains', location: 'Food Court', address: '1 Temasek Avenue, B2-24 to B2-29, Singapore 039192', phone: '+65 6332 8686', lastChosen: null, timesChosen: 0, locked: false },
+            { id: 3, name: 'Ichiban Ramen', food: 'Tonkotsu Ramen', category: 'Mains', location: 'Tower 2', address: '1 Temasek Avenue, Singapore 039192', phone: '+65 6333 3688', lastChosen: null, timesChosen: 0, locked: false }
         ];
 
         let scraperLinks = JSON.parse(localStorage.getItem('scraperLinks')) || [];
-        let currentWeek = JSON.parse(localStorage.getItem('currentWeek
+        let currentWeek = JSON.parse(localStorage.getItem('currentWeek')) || null;
+        let nextId = parseInt(localStorage.getItem('nextId')) || 4;
+        let editingId = null;
+        let currentFilter = 'all';
+        let selectedWheelCategory = 'all';
+        let lastSpinner = localStorage.getItem('lastSpinner') || '';
+        
+        // ========== TAB SWITCHING (FIXED) ==========
+        function switchTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            
+            // Deactivate all buttons
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            
+            // Activate clicked button
+            document.querySelector(`[data-tab="\${tabName}"]`).classList.add('active');
+            
+            renderUI();
+        }
+        
+        // ========== SAVE DATA ==========
+        function saveData() {
+            localStorage.setItem('restaurants', JSON.stringify(restaurants));
+            localStorage.setItem('currentWeek', JSON.stringify(currentWeek));
+            localStorage.setItem('nextId', nextId.toString());
+            localStorage.setItem('scraperLinks', JSON.stringify(scraperLinks));
+        }
+
+        // ========== WHEEL FUNCTIONS ==========
+        function selectWheelCategory(category) {
+            selectedWheelCategory = category;
+            
+            // Update button styling
+            document.querySelectorAll('.category-toggle-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            renderAvailableOptions();
+        }
+
+        function renderAvailableOptions() {
+            const filtered = selectedWheelCategory === 'all' 
+                ? restaurants 
+                : restaurants.filter(r => r.category === selectedWheelCategory);
+            
+            const html = filtered.map(r => `
+                <div class="option-card">
+                    <strong>\${r.name}</strong>
+                    <small>\${r.food}</small>
+                </div>
+            `).join('');
+            
+            document.getElementById('availableOptions').innerHTML = html || '<p>No options available</p>';
+        }
+
+        function askSpinnerName() {
+            document.getElementById('spinnerModal').classList.add('active');
+            document.getElementById('spinnerName').focus();
+        }
+
+        function closeSpinnerModal() {
+            document.getElementById('spinnerModal').classList.remove('active');
+        }
+
+        function proceedSpin() {
+            const name = document.getElementById('spinnerName').value.trim();
+            if (!name) {
+                alert('Please enter your name');
+                return;
+            }
+            
+            lastSpinner = name;
+            localStorage.setItem('lastSpinner', name);
+            closeSpinnerModal();
+            spinWheel();
+        }
+
+        function spinWheel() {
+            const filtered = selectedWheelCategory === 'all' 
+                ? restaurants.filter(r => !r.locked)
+                : restaurants.filter(r => r.category === selectedWheelCategory && !r.locked);
+            
+            if (filtered.length === 0) {
+                alert('No restaurants available to spin!');
+                return;
+            }
+            
+            // Add spinning animation
+            const spinner = document.getElementById('spinner');
+            spinner.classList.remove('spinning');
+            void spinner.offsetWidth; // Trigger reflow
+            spinner.classList.add('spinning');
+            
+            // Select random restaurant after animation
+            setTimeout(() => {
+                const selected = filtered[Math.floor(Math.random() * filtered.length)];
+                selected.lastChosen = new Date().toLocaleDateString();
+                selected.timesChosen++;
+                selected.locked = true;
+                
+                currentWeek = selected;
+                saveData();
+                
+                displayResult(selected);
+                spinner.classList.remove('spinning');
+                renderUI();
+            }, 2000);
