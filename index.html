@@ -1,41 +1,34 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Suntec Food Wheel - Management System</title>
+    <title>Suntec Food Wheel</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: Arial, sans-serif; background: #f5f5f5; }
-        
         .header { background: #333; color: white; padding: 20px; text-align: center; }
-        .tab-buttons { display: flex; background: #444; padding: 0; }
-        .tab-btn { flex: 1; padding: 15px; border: none; background: #555; color: white; cursor: pointer; font-size: 16px; font-weight: 600; }
+        .tab-buttons { display: flex; background: #444; }
+        .tab-btn { flex: 1; padding: 15px; border: none; background: #555; color: white; cursor: pointer; font-weight: 600; transition: 0.3s; }
         .tab-btn:hover { background: #666; }
         .tab-btn.active { background: #4CAF50; }
-        
         .tab-content { display: none; padding: 20px; }
         .tab-content.active { display: block; }
         
         .wheel-container { max-width: 900px; margin: 0 auto; }
         .spinner-wrapper { text-align: center; padding: 40px; }
-        
-        .week-info { background: #e3f2fd; padding: 15px; border-radius: 5px; margin-bottom: 20px; text-align: center; }
-        
         .category-selector { background: white; padding: 20px; border-radius: 5px; margin-bottom: 30px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .category-selector h3 { margin-bottom: 15px; }
-        .category-toggle { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
-        
-        .category-toggle-btn { padding: 10px 20px; border: 2px solid #ddd; background: white; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 14px; transition: all 0.3s; }
+        .category-toggle { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 15px; }
+        .category-toggle-btn { padding: 10px 20px; border: 2px solid #ddd; background: white; border-radius: 20px; cursor: pointer; font-weight: bold; transition: 0.3s; }
         .category-toggle-btn:hover { border-color: #4CAF50; }
         .category-toggle-btn.active { background: #4CAF50; color: white; border-color: #4CAF50; }
         
-        .spinner { width: 250px; height: 250px; border-radius: 50%; margin: 0 auto 30px; display: flex; align-items: center; justify-content: center; font-size: 60px; font-weight: bold; color: white; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
-        .spinner.spinning { animation: spin 2s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
-        
+        .spinner { width: 250px; height: 250px; border-radius: 50%; margin: 0 auto 30px; display: flex; align-items: center; justify-content: center; font-size: 60px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        .spinner.spinning { animation: spin 2s ease-out; }
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(1800deg); } }
         
-        .spin-button { background: #4CAF50; color: white; padding: 15px 40px; font-size: 16px; border: none; border-radius: 5px; cursor: pointer; margin: 10px; font-weight: 600; }
+        .spin-button { background: #4CAF50; color: white; padding: 15px 40px; font-size: 16px; border: none; border-radius: 5px; cursor: pointer; margin: 10px; font-weight: 600; transition: 0.3s; }
         .spin-button:hover { background: #45a049; }
         .spin-button.btn-secondary { background: #2196F3; }
         .spin-button.btn-secondary:hover { background: #0b7dda; }
@@ -45,63 +38,44 @@
         .result-details div { margin: 8px 0; padding: 8px; background: #f9f9f9; border-left: 3px solid #4CAF50; }
         
         .result-buttons { margin-top: 20px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
-        .result-buttons a, .result-buttons button { padding: 10px 15px; font-size: 14px; border: none; border-radius: 5px; cursor: pointer; text-decoration: none; color: white; font-weight: 600; }
-        .call-btn { background: #2196F3; }
-        .call-btn:hover { background: #0b7dda; }
+        .result-buttons a { padding: 10px 15px; font-size: 14px; border: none; border-radius: 5px; text-decoration: none; color: white; font-weight: 600; cursor: pointer; }
         .map-btn { background: #FF9800; }
-        .map-btn:hover { background: #e68900; }
+        .call-btn { background: #2196F3; }
         
         .history-small { background: #fff; padding: 20px; margin-top: 20px; border-radius: 5px; }
         .available-options { background: #fff; padding: 20px; margin-top: 20px; border-radius: 5px; }
-        
         .options-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; margin-top: 15px; }
-        .option-card { background: #f9f9f9; padding: 12px; border-radius: 5px; border-left: 3px solid #4CAF50; opacity: 1; transition: opacity 0.3s; }
-        .option-card.locked { opacity: 0.6; background: #ffe0e0; }
-        .option-card strong { display: block; margin-bottom: 5px; }
-        .option-card small { color: #666; font-size: 12px; }
+        .option-card { background: #f9f9f9; padding: 12px; border-radius: 5px; border-left: 3px solid #4CAF50; opacity: 1; }
+        .option-card.locked { opacity: 0.5; background: #ffe0e0; }
         
         .dashboard-container { max-width: 1400px; margin: 0 auto; }
         .controls { background: white; padding: 20px; border-radius: 5px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .controls h3 { margin-bottom: 15px; }
         .control-group { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; }
-        
         input, select, textarea { padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-size: 14px; }
         input, textarea { flex: 1; min-width: 150px; }
-        
         button { padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 14px; font-weight: 600; }
         .btn-primary { background: #4CAF50; color: white; }
         .btn-primary:hover { background: #45a049; }
         .btn-secondary { background: #2196F3; color: white; }
-        .btn-secondary:hover { background: #0b7dda; }
         .btn-danger { background: #f44336; color: white; }
-        .btn-danger:hover { background: #da190b; }
         .btn-small { padding: 5px 10px; font-size: 12px; }
         
-        .table-wrapper { overflow-x: auto; }
         table { width: 100%; border-collapse: collapse; background: white; border-radius: 5px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; font-size: 13px; }
         th { background: #333; color: white; font-weight: bold; }
         tr:hover { background: #f5f5f5; }
         
-        .status-badge { display: inline-block; padding: 5px 10px; border-radius: 20px; font-size: 11px; font-weight: bold; }
-        .status-available { background: #d4edda; color: #155724; }
-        .status-locked { background: #f8d7da; color: #721c24; }
-        
         .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.4); overflow: auto; }
         .modal.active { display: block; }
         .modal-content { background-color: #fefefe; margin: 10% auto; padding: 20px; border: 1px solid #888; width: 90%; max-width: 600px; border-radius: 5px; }
         .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .modal-header h2 { margin: 0; }
         .close-btn { font-size: 28px; font-weight: bold; cursor: pointer; color: #aaa; }
-        .close-btn:hover { color: #000; }
-        
         .form-group { margin-bottom: 15px; }
         .form-group label { display: block; font-weight: bold; margin-bottom: 5px; }
         .form-group input, .form-group textarea, .form-group select { width: 100%; }
         
         .filter-buttons { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
         .filter-btn { padding: 8px 16px; border: 2px solid #ddd; background: white; border-radius: 20px; cursor: pointer; font-weight: bold; }
-        .filter-btn:hover { border-color: #4CAF50; }
         .filter-btn.active { background: #4CAF50; color: white; border-color: #4CAF50; }
         
         .scraper-section { background: #f0f0f0; padding: 20px; border-radius: 5px; margin-bottom: 20px; }
@@ -110,13 +84,9 @@
         .scraper-history { margin-top: 15px; }
         .scraper-link-item { background: white; padding: 10px; border-radius: 5px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
         .scraper-link-item a { color: #2196F3; text-decoration: none; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-        .scraper-link-item a:hover { text-decoration: underline; }
         
-        h3 { margin-bottom: 15px; }
-        h4 { margin-top: 20px; margin-bottom: 10px; }
-        
+        h3, h4 { margin-bottom: 15px; }
         .history-log { background: #fff; padding: 15px; border-radius: 5px; margin-top: 20px; font-size: 12px; max-height: 400px; overflow-y: auto; }
-        .history-log h4 { margin-top: 0; }
         .history-item { padding: 10px; background: #f9f9f9; margin: 5px 0; border-left: 3px solid #2196F3; border-radius: 3px; }
     </style>
 </head>
@@ -126,25 +96,20 @@
     </div>
     
     <div class="tab-buttons">
-        <button class="tab-btn active" id="btn-wheel" onclick="showTab('wheel')">🎡 Spinning Wheel</button>
-        <button class="tab-btn" id="btn-manage" onclick="showTab('manage')">⚙️ Manage Database</button>
+        <button class="tab-btn active" data-tab="wheel" onclick="switchTab('wheel', this)">🎡 Spinning Wheel</button>
+        <button class="tab-btn" data-tab="manage" onclick="switchTab('manage', this)">⚙️ Manage Database</button>
     </div>
     
-    <!-- SPINNING WHEEL TAB -->
+    <!-- SPINNING WHEEL -->
     <div id="wheel" class="tab-content active">
         <div class="wheel-container">
-            <div class="week-info">
-                <h4>📅 Week of <span id="weekDisplay"></span></h4>
-                <p id="weekStatus"></p>
-            </div>
-
             <div class="category-selector">
                 <h3>Select Fellowship Type:</h3>
                 <div class="category-toggle">
-                    <button class="category-toggle-btn active" onclick="selectCategory('all')">🍽️ All</button>
-                    <button class="category-toggle-btn" onclick="selectCategory('Mains')">🍲 Mains</button>
-                    <button class="category-toggle-btn" onclick="selectCategory('Drinks')">🥤 Drinks</button>
-                    <button class="category-toggle-btn" onclick="selectCategory('Dessert')">🍰 Dessert</button>
+                    <button class="category-toggle-btn active" onclick="selectCategory(this, 'all')">🍽️ All</button>
+                    <button class="category-toggle-btn" onclick="selectCategory(this, 'Mains')">🍲 Mains</button>
+                    <button class="category-toggle-btn" onclick="selectCategory(this, 'Drinks')">🥤 Drinks</button>
+                    <button class="category-toggle-btn" onclick="selectCategory(this, 'Dessert')">🍰 Dessert</button>
                 </div>
             </div>
 
@@ -162,9 +127,8 @@
             <div class="result-box" id="result">Click SPIN to pick!</div>
             
             <div class="history-small">
-                <h3>📊 This Week's Spins:</h3>
-                <p style="color: #666; font-size: 13px; margin-bottom: 10px;"><strong>Total spins this week: <span id="spinCount">0</span></strong></p>
-                <div class="table-wrapper">
+                <h3>📊 This Week's Spins (<span id="spinCount">0</span>):</h3>
+                <div style="overflow-x: auto;">
                     <table>
                         <thead><tr><th>#</th><th>Restaurant</th><th>Spun By</th><th>Time</th></tr></thead>
                         <tbody id="wheelHistory"></tbody>
@@ -173,13 +137,13 @@
             </div>
 
             <div class="history-log">
-                <h4>📜 All-Time Spin History:</h4>
+                <h4>📜 All-Time History:</h4>
                 <div id="allTimeHistory"></div>
             </div>
         </div>
     </div>
     
-    <!-- DATABASE TAB -->
+    <!-- DATABASE -->
     <div id="manage" class="tab-content">
         <div class="dashboard-container">
             <div class="controls">
@@ -211,101 +175,49 @@
                 </div>
             </div>
 
-            <!-- SCRAPER SECTION -->
             <div class="scraper-section">
                 <h3>🔗 Web Scraper</h3>
-                <p style="color: #666; margin-bottom: 15px;">Save restaurant links (Google Maps, OpenRice, etc.)</p>
-                
                 <div class="scraper-input-group">
                     <input type="text" id="scraperLink" placeholder="https://...">
                     <input type="text" id="scraperCategory" placeholder="Category" value="Mains">
                     <button class="btn-secondary" onclick="addScraperLink()">➕ Add</button>
                 </div>
-
-                <h4>Saved Links:</h4>
-                <div class="scraper-history" id="scraperHistory">
-                    <p style="color: #999; text-align: center;">No links yet</p>
-                </div>
-
-                <div class="control-group" style="margin-top: 15px;">
-                    <button class="btn-secondary" onclick="scrapeAllLinks()">🔗 Open All</button>
-                </div>
+                <h4>Links:</h4>
+                <div class="scraper-history" id="scraperHistory"><p style="color: #999;">No links</p></div>
+                <button class="btn-secondary" style="margin-top: 10px;" onclick="scrapeAllLinks()">🔗 Open All</button>
             </div>
 
             <h3>Filter:</h3>
             <div class="filter-buttons">
-                <button class="filter-btn active" onclick="filterCat('all')">All</button>
-                <button class="filter-btn" onclick="filterCat('Mains')">🍲 Mains</button>
-                <button class="filter-btn" onclick="filterCat('Drinks')">🥤 Drinks</button>
-                <button class="filter-btn" onclick="filterCat('Dessert')">🍰 Dessert</button>
+                <button class="filter-btn active" onclick="filterCat(this, 'all')">All</button>
+                <button class="filter-btn" onclick="filterCat(this, 'Mains')">🍲 Mains</button>
+                <button class="filter-btn" onclick="filterCat(this, 'Drinks')">🥤 Drinks</button>
+                <button class="filter-btn" onclick="filterCat(this, 'Dessert')">🍰 Dessert</button>
             </div>
             
             <h3>Database</h3>
-            <div class="table-wrapper">
+            <div style="overflow-x: auto;">
                 <table>
-                    <thead>
-                        <tr>
-                            <th>Restaurant</th>
-                            <th>Category</th>
-                            <th>Food</th>
-                            <th>Location</th>
-                            <th>Address</th>
-                            <th>Phone</th>
-                            <th>All-Time Spins</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
+                    <thead><tr><th>Restaurant</th><th>Category</th><th>Food</th><th>Location</th><th>Address</th><th>Phone</th><th>Total Spins</th><th>Action</th></tr></thead>
                     <tbody id="databaseTable"></tbody>
                 </table>
             </div>
         </div>
     </div>
     
-    <!-- ADD MODAL -->
+    <!-- MODALS -->
     <div id="modal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
                 <h2>Add Restaurant</h2>
                 <span class="close-btn" onclick="closeModal()">&times;</span>
             </div>
-            <div class="form-group">
-                <label>Name</label>
-                <input type="text" id="modalName">
-            </div>
-            <div class="form-group">
-                <label>Category</label>
-                <select id="modalCategory">
-                    <option value="">Select</option>
-                    <option value="Mains">🍲 Mains</option>
-                    <option value="Drinks">🥤 Drinks</option>
-                    <option value="Dessert">🍰 Dessert</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>Food</label>
-                <input type="text" id="modalFood">
-            </div>
-            <div class="form-group">
-                <label>Location</label>
-                <select id="modalLocation">
-                    <option value="">Select</option>
-                    <option value="Tower 1">Tower 1</option>
-                    <option value="Tower 2">Tower 2</option>
-                    <option value="Tower 3">Tower 3</option>
-                    <option value="Tower 4">Tower 4</option>
-                    <option value="Tower 5">Tower 5</option>
-                    <option value="Food Court">Food Court</option>
-                    <option value="Basement">Basement</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>Address</label>
-                <textarea id="modalAddress" rows="2"></textarea>
-            </div>
-            <div class="form-group">
-                <label>Phone</label>
-                <input type="text" id="modalPhone">
-            </div>
+            <div class="form-group"><label>Name</label><input type="text" id="modalName"></div>
+            <div class="form-group"><label>Category</label><select id="modalCategory"><option value="">Select</option><option value="Mains">🍲 Mains</option><option value="Drinks">🥤 Drinks</option><option value="Dessert">🍰 Dessert</option></select></div>
+            <div class="form-group"><label>Food</label><input type="text" id="modalFood"></div>
+            <div class="form-group"><label>Location</label><select id="modalLocation"><option value="">Select</option><option value="Tower 1">Tower 1</option><option value="Tower 2">Tower 2</option><option value="Tower 3">Tower 3</option><option value="Tower 4">Tower 4</option><option value="Tower 5">Tower 5</option><option value="Food Court">Food Court</option><option value="Basement">Basement</option></select></div>
+            <div class="form-group"><label>Address</label><textarea id="modalAddress" rows="2"></textarea></div>
+            <div class="form-group"><label>Phone</label><input type="text" id="modalPhone"></div>
             <div class="control-group">
                 <button class="btn-primary" onclick="saveRest()">💾 Save</button>
                 <button class="btn-secondary" onclick="closeModal()">Cancel</button>
@@ -313,17 +225,13 @@
         </div>
     </div>
 
-    <!-- SPINNER NAME MODAL -->
     <div id="nameModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
                 <h2>Who's Spinning?</h2>
                 <span class="close-btn" onclick="closeName()">&times;</span>
             </div>
-            <div class="form-group">
-                <label>Your Name</label>
-                <input type="text" id="spinnerName" onkeypress="if(event.key==='Enter') spin()">
-            </div>
+            <div class="form-group"><label>Your Name</label><input type="text" id="spinnerName" onkeypress="if(event.key==='Enter') spin()"></div>
             <div class="control-group">
                 <button class="btn-primary" onclick="spin()">Spin</button>
                 <button class="btn-secondary" onclick="closeName()">Cancel</button>
@@ -332,34 +240,24 @@
     </div>
 
     <script>
-        // ========== WEEK MANAGEMENT ==========
-        function getWeekStart() {
-            const now = new Date();
-            const day = now.getDay();
-            const diff = now.getDate() - day + (day === 0 ? -6 : 1);
-            return new Date(now.setDate(diff)).toISOString().split('T');
-        }
-
-        function displayWeek() {
-            const weekStart = getWeekStart();
-            const weekEnd = new Date(new Date(weekStart).getTime() + 6 * 24 * 60 * 60 * 1000).toLocaleDateString();
-            document.getElementById('weekDisplay').textContent = `\${new Date(weekStart).toLocaleDateString()} - \${weekEnd}`;
-            return weekStart;
-        }
-
-        // ========== DATA STRUCTURE ==========
-        // spins = [ { weekStart, restaurantId, spinnerName, timestamp }, ... ]
+        // DATA
         let restaurants = JSON.parse(localStorage.getItem('restaurants')) || [
             { id: 1, name: 'Din Tai Fung', food: 'Xiao Long Bao', category: 'Mains', location: 'Tower 1', address: '1 Raffles Link', phone: '+65 6333 8800' },
             { id: 2, name: 'Lao Ban Soya Chicken', food: 'Soya Chicken Rice', category: 'Mains', location: 'Food Court', address: '1 Temasek Avenue', phone: '+65 6332 8686' },
             { id: 3, name: 'Ichiban Ramen', food: 'Tonkotsu Ramen', category: 'Mains', location: 'Tower 2', address: '1 Temasek Avenue', phone: '+65 6333 3688' }
         ];
-
         let spins = JSON.parse(localStorage.getItem('spins')) || [];
         let scraperLinks = JSON.parse(localStorage.getItem('scraperLinks')) || [];
         let nextId = 4;
         let currentFilter = 'all';
         let selectedCat = 'all';
+
+        function getWeekStart() {
+            const now = new Date();
+            const day = now.getDay();
+            const diff = now.getDate() - day + (day === 0 ? -6 : 1);
+            return new Date(now.setDate(diff)).toISOString().split('T')[0];
+        }
 
         function save() {
             localStorage.setItem('restaurants', JSON.stringify(restaurants));
@@ -368,18 +266,19 @@
             localStorage.setItem('nextId', nextId);
         }
 
-        function showTab(tab) {
+        // ✅ FIXED TAB SWITCHING
+        function switchTab(tabName, button) {
             document.querySelectorAll('.tab-content').forEach(e => e.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(e => e.classList.remove('active'));
-            document.getElementById(tab).classList.add('active');
-            document.getElementById('btn-' + tab).classList.add('active');
+            document.getElementById(tabName).classList.add('active');
+            button.classList.add('active');
             render();
         }
 
-        function selectCategory(cat) {
+        function selectCategory(button, cat) {
             selectedCat = cat;
             document.querySelectorAll('.category-toggle-btn').forEach(b => b.classList.remove('active'));
-            event.target.classList.add('active');
+            button.classList.add('active');
             renderOptions();
         }
 
@@ -387,11 +286,10 @@
             const weekStart = getWeekStart();
             const thisWeekSpins = spins.filter(s => s.weekStart === weekStart);
             const lockedIds = new Set(thisWeekSpins.map(s => s.restaurantId));
-            
             const filtered = selectedCat === 'all' ? restaurants : restaurants.filter(r => r.category === selectedCat);
             const html = filtered.map(r => {
                 const isLocked = lockedIds.has(r.id);
-                return `<div class="option-card \${isLocked ? 'locked' : ''}"><strong>\${r.name}</strong><small>\${r.food}\${isLocked ? ' ✓ Taken' : ''}</small></div>`;
+                return `<div class="option-card ${isLocked ? 'locked' : ''}"><strong>${r.name}</strong><small>${r.food}${isLocked ? ' ✓' : ''}</small></div>`;
             }).join('');
             document.getElementById('availableOptions').innerHTML = html;
         }
@@ -417,12 +315,8 @@
             const weekStart = getWeekStart();
             const thisWeekSpins = spins.filter(s => s.weekStart === weekStart);
             const lockedIds = new Set(thisWeekSpins.map(s => s.restaurantId));
-            
-            const filtered = selectedCat === 'all' 
-                ? restaurants.filter(r => !lockedIds.has(r.id))
-                : restaurants.filter(r => r.category === selectedCat && !lockedIds.has(r.id));
-            
-            if (filtered.length === 0) { alert('All restaurants chosen this week!'); return; }
+            const filtered = selectedCat === 'all' ? restaurants.filter(r => !lockedIds.has(r.id)) : restaurants.filter(r => r.category === selectedCat && !lockedIds.has(r.id));
+            if (filtered.length === 0) { alert('All chosen!'); return; }
             
             const spinner = document.getElementById('spinner');
             spinner.classList.remove('spinning');
@@ -432,57 +326,37 @@
             setTimeout(() => {
                 const selected = filtered[Math.floor(Math.random() * filtered.length)];
                 const now = new Date();
-                const timestamp = now.toLocaleString();
-                
-                // Record this spin
-                spins.push({
-                    weekStart,
-                    restaurantId: selected.id,
-                    spinnerName,
-                    timestamp
-                });
-                
+                spins.push({ weekStart, restaurantId: selected.id, spinnerName, timestamp: now.toLocaleString() });
                 save();
-                showResult(selected, spinnerName, timestamp);
+                document.getElementById('result').innerHTML = `
+                    <h2 style="color: #4CAF50;">${selected.name}</h2>
+                    <div class="result-details">
+                        <div><strong>Food:</strong> ${selected.food}</div>
+                        <div><strong>Location:</strong> ${selected.location}</div>
+                        <div><strong>Address:</strong> ${selected.address}</div>
+                        <div><strong>Phone:</strong> ${selected.phone}</div>
+                        <div><strong>Spun by:</strong> ${spinnerName}</div>
+                        <div><strong>Time:</strong> ${now.toLocaleString()}</div>
+                    </div>
+                    <div class="result-buttons">
+                        <a href="https://maps.google.com/?q=${encodeURIComponent(selected.address)}" target="_blank" class="map-btn">📍 Map</a>
+                        <a href="tel:${selected.phone.replace(/\D/g, '')}" class="call-btn">📞 Call</a>
+                    </div>
+                `;
                 spinner.classList.remove('spinning');
                 render();
             }, 2000);
         }
 
-        function showResult(r, spinnerName, timestamp) {
-            const html = `
-                <h2 style="color: #4CAF50;">\${r.name}</h2>
-                <div class="result-details">
-                    <div><strong>Food:</strong> \${r.food}</div>
-                    <div><strong>Location:</strong> \${r.location}</div>
-                    <div><strong>Address:</strong> \${r.address}</div>
-                    <div><strong>Phone:</strong> \${r.phone}</div>
-                    <div><strong>Spun by:</strong> \${spinnerName}</div>
-                    <div><strong>Time:</strong> \${timestamp}</div>
-                </div>
-                <div class="result-buttons">
-                    <a href="[https://maps.google.com/?q=](https://maps.google.com/?q=)\${encodeURIComponent(r.address)}" target="_blank" class="map-btn">📍 Map</a>
-                    <a href="tel:\${r.phone.replace(/\D/g, '')}" class="call-btn">📞 Call</a>
-                </div>
-            `;
-            document.getElementById('result').innerHTML = html;
-        }
-
         function resetWeek() {
-            if (confirm('Move to next week? (Keeps history)')) {
-                // History is preserved, just render will show empty for new week
+            if (confirm('Next week?')) {
                 document.getElementById('result').innerHTML = 'Click SPIN!';
                 render();
             }
         }
 
-        function openModal() {
-            document.getElementById('modal').classList.add('active');
-        }
-
-        function closeModal() {
-            document.getElementById('modal').classList.remove('active');
-        }
+        function openModal() { document.getElementById('modal').classList.add('active'); }
+        function closeModal() { document.getElementById('modal').classList.remove('active'); }
 
         function saveRest() {
             const name = document.getElementById('modalName').value.trim();
@@ -491,17 +365,8 @@
             const loc = document.getElementById('modalLocation').value;
             const addr = document.getElementById('modalAddress').value.trim();
             const ph = document.getElementById('modalPhone').value.trim();
-            
-            if (!name || !cat || !food || !loc || !addr || !ph) {
-                alert('Fill all fields!');
-                return;
-            }
-            
-            restaurants.push({
-                id: nextId++,
-                name, food, category: cat, location: loc, address: addr, phone: ph
-            });
-            
+            if (!name || !cat || !food || !loc || !addr || !ph) { alert('Fill all!'); return; }
+            restaurants.push({ id: nextId++, name, food, category: cat, location: loc, address: addr, phone: ph });
             save();
             closeModal();
             document.getElementById('modalName').value = '';
@@ -511,7 +376,6 @@
             document.getElementById('modalAddress').value = '';
             document.getElementById('modalPhone').value = '';
             render();
-            alert('Saved!');
         }
 
         function deleteRest(id) {
@@ -522,10 +386,10 @@
             }
         }
 
-        function filterCat(cat) {
+        function filterCat(button, cat) {
             currentFilter = cat;
             document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-            event.target.classList.add('active');
+            button.classList.add('active');
             renderTable();
         }
 
@@ -533,11 +397,60 @@
             const filtered = currentFilter === 'all' ? restaurants : restaurants.filter(r => r.category === currentFilter);
             const html = filtered.map(r => {
                 const totalSpins = spins.filter(s => s.restaurantId === r.id).length;
-                return `
-                    <tr>
-                        <td>\${r.name}</td>
-                        <td>\${r.category}</td>
-                        <td>\${r.food}</td>
-                        <td>\${r.location}</td>
-                        <td>\${r.address}</td>
-                
+                return `<tr><td>${r.name}</td><td>${r.category}</td><td>${r.food}</td><td>${r.location}</td><td>${r.address}</td><td>${r.phone}</td><td>${totalSpins}</td><td><button class="btn-danger btn-small" onclick="deleteRest(${r.id})">Delete</button></td></tr>`;
+            }).join('');
+            document.getElementById('databaseTable').innerHTML = html;
+        }
+
+        function renderWheel() {
+            const weekStart = getWeekStart();
+            const thisWeekSpins = spins.filter(s => s.weekStart === weekStart);
+            document.getElementById('spinCount').textContent = thisWeekSpins.length;
+            const html = thisWeekSpins.map((s, i) => {
+                const r = restaurants.find(x => x.id === s.restaurantId);
+                return `<tr><td>${i+1}</td><td>${r.name}</td><td>${s.spinnerName}</td><td>${s.timestamp}</td></tr>`;
+            }).join('');
+            document.getElementById('wheelHistory').innerHTML = html;
+            const allHtml = spins.slice(-20).reverse().map(s => {
+                const r = restaurants.find(x => x.id === s.restaurantId);
+                return `<div class="history-item"><strong>${r.name}</strong> - ${s.spinnerName} on ${s.timestamp}</div>`;
+            }).join('');
+            document.getElementById('allTimeHistory').innerHTML = allHtml;
+        }
+
+        function addScraperLink() {
+            const link = document.getElementById('scraperLink').value.trim();
+            const cat = document.getElementById('scraperCategory').value || 'Mains';
+            if (!link || (!link.startsWith('http://') && !link.startsWith('https://'))) { alert('Valid URL!'); return; }
+            scraperLinks.push({ id: Date.now(), link, category: cat, dateAdded: new Date().toLocaleDateString() });
+            save();
+            document.getElementById('scraperLink').value = '';
+            renderScraperLinks();
+        }
+
+        function renderScraperLinks() {
+            const html = scraperLinks.length === 0 ? '<p style="color: #999;">No links</p>' : scraperLinks.map(item => `
+                <div class="scraper-link-item">
+                    <a href="${item.link}" target="_blank">🔗 ${item.link.substring(0, 50)}...</a>
+                    <button class="btn-danger btn-small" onclick="scraperLinks=scraperLinks.filter(l=>l.id!==${item.id});save();renderScraperLinks()">×</button>
+                </div>
+            `).join('');
+            document.getElementById('scraperHistory').innerHTML = html;
+        }
+
+        function scrapeAllLinks() {
+            if (scraperLinks.length === 0) { alert('No links!'); return; }
+            scraperLinks.forEach(item => window.open(item.link, '_blank'));
+        }
+
+        function render() {
+            renderOptions();
+            renderWheel();
+            renderTable();
+            renderScraperLinks();
+        }
+
+        render();
+    </script>
+</body>
+</html>
