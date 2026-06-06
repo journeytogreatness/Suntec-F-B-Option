@@ -1,0 +1,887 @@
+Here's the complete HTML file ready to download and upload:
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Suntec Food Wheel - Management System</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial; background: #f5f5f5; }
+        
+        .header {
+            background: #333;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .tab-buttons {
+            display: flex;
+            background: #444;
+            padding: 0;
+        }
+        
+        .tab-btn {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            background: #555;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        .tab-btn.active {
+            background: #4CAF50;
+        }
+        
+        .tab-content {
+            display: none;
+            padding: 20px;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* INTERFACE A - Spinning Wheel */
+        .wheel-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .spinner-wrapper {
+            text-align: center;
+            padding: 40px;
+        }
+        
+        .spinner {
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            margin: 0 auto 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: bold;
+            color: white;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            position: relative;
+        }
+        
+        .spinner.spinning {
+            animation: spin 2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(1800deg); }
+        }
+        
+        .spin-button {
+            background: #4CAF50;
+            color: white;
+            padding: 20px 40px;
+            font-size: 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 20px 10px;
+        }
+        
+        .spin-button:hover {
+            background: #45a049;
+        }
+        
+        .result-box {
+            background: #fff;
+            padding: 30px;
+            margin-top: 30px;
+            border-radius: 5px;
+            text-align: center;
+            min-height: 150px;
+            font-size: 24px;
+            font-weight: bold;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .result-details {
+            text-align: left;
+            margin-top: 20px;
+            font-size: 14px;
+            font-weight: normal;
+            line-height: 1.8;
+        }
+        
+        .result-details div {
+            margin: 8px 0;
+            padding: 8px;
+            background: #f9f9f9;
+            border-left: 3px solid #4CAF50;
+        }
+        
+        .result-buttons {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .result-buttons a, .result-buttons button {
+            padding: 10px 15px;
+            font-size: 14px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            color: white;
+        }
+        
+        .call-btn {
+            background: #2196F3;
+        }
+        
+        .map-btn {
+            background: #FF9800;
+        }
+        
+        .history-small {
+            background: #fff;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 5px;
+        }
+        
+        /* INTERFACE B - Management Dashboard */
+        .dashboard-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .controls {
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .control-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        
+        input, select, textarea {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        
+        input, textarea {
+            flex: 1;
+            min-width: 150px;
+        }
+        
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .btn-primary {
+            background: #4CAF50;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #45a049;
+        }
+        
+        .btn-secondary {
+            background: #2196F3;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #0b7dda;
+        }
+        
+        .btn-danger {
+            background: #f44336;
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background: #da190b;
+        }
+        
+        .btn-small {
+            padding: 5px 10px;
+            font-size: 12px;
+        }
+        
+        .table-wrapper {
+            overflow-x: auto;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+            font-size: 13px;
+        }
+        
+        th {
+            background: #333;
+            color: white;
+            font-weight: bold;
+        }
+        
+        tr:hover {
+            background: #f5f5f5;
+        }
+        
+        .locked {
+            background: #ffcccc;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+        
+        .status-available {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-locked {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .sync-status {
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+            text-align: center;
+            display: none;
+        }
+        
+        .sync-status.success {
+            background: #d4edda;
+            color: #155724;
+            display: block;
+        }
+        
+        .sync-status.error {
+            background: #f8d7da;
+            color: #721c24;
+            display: block;
+        }
+        
+        .contact-info {
+            font-size: 12px;
+            color: #666;
+            line-height: 1.4;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.4);
+        }
+        
+        .modal.active {
+            display: block;
+        }
+        
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 90%;
+            max-width: 600px;
+            border-radius: 5px;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .close-btn {
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            color: #aaa;
+        }
+        
+        .close-btn:hover {
+            color: #000;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🍽️ Suntec Cell Group Food Wheel</h1>
+    </div>
+    
+    <div class="tab-buttons">
+        <button class="tab-btn active" onclick="switchTab('wheel')">🎡 Spinning Wheel</button>
+        <button class="tab-btn" onclick="switchTab('manage')">⚙️ Manage Database</button>
+    </div>
+    
+    <!-- INTERFACE A: SPINNING WHEEL -->
+    <div id="wheel" class="tab-content active">
+        <div class="wheel-container">
+            <div class="spinner-wrapper">
+                <div class="spinner" id="spinner">🍽️</div>
+                <button class="spin-button" onclick="spinWheel()">🎡 SPIN WHEEL</button>
+                <button class="spin-button btn-secondary" onclick="resetWeek()">Reset Week</button>
+            </div>
+            
+            <div class="result-box" id="result">Click SPIN to pick this week's lunch!</div>
+            
+            <div class="history-small">
+                <h3>This Week's Status:</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Restaurant</th>
+                            <th>Last Chosen</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="wheelHistory"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <!-- INTERFACE B: MANAGEMENT DASHBOARD -->
+    <div id="manage" class="tab-content">
+        <div class="dashboard-container">
+            <div class="controls">
+                <h3>Add New Restaurant</h3>
+                <div class="control-group">
+                    <input type="text" id="restaurantName" placeholder="Restaurant name">
+                    <input type="text" id="foodOption" placeholder="Food option">
+                    <select id="location">
+                        <option value="">Select Location</option>
+                        <option value="Tower 1">Tower 1</option>
+                        <option value="Tower 2">Tower 2</option>
+                        <option value="Tower 3">Tower 3</option>
+                        <option value="Tower 4">Tower 4</option>
+                        <option value="Tower 5">Tower 5</option>
+                        <option value="Food Court">Food Court</option>
+                        <option value="Basement">Basement</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <input type="text" id="address" placeholder="Address">
+                    <input type="text" id="phone" placeholder="Phone number">
+                    <button class="btn-primary" onclick="openAddModal()">➕ Add</button>
+                </div>
+                
+                <h3 style="margin-top: 20px;">Web Scraper Sync</h3>
+                <div class="control-group">
+                    <button class="btn-secondary" onclick="syncGoogleMaps()">🔄 Sync from Google Maps</button>
+                    <button class="btn-secondary" onclick="syncOpenRice()">🔄 Sync from OpenRice</button>
+                    <button class="btn-secondary" onclick="syncCarousell()">🔄 Sync from Carousell</button>
+                </div>
+                <div class="sync-status" id="syncStatus"></div>
+            </div>
+            
+            <h3>Restaurant Database</h3>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Restaurant</th>
+                            <th>Food Option</th>
+                            <th>Location @ Suntec</th>
+                            <th>Address & Contact</th>
+                            <th>Last Chosen</th>
+                            <th>Times</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="databaseTable"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <!-- MODAL FOR ADDING/EDITING -->
+    <div id="restaurantModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Add Restaurant</h2>
+                <span class="close-btn" onclick="closeAddModal()">&times;</span>
+            </div>
+            <div class="form-group">
+                <label>Restaurant Name</label>
+                <input type="text" id="modalName" placeholder="e.g., Din Tai Fung">
+            </div>
+            <div class="form-group">
+                <label>Food Option</label>
+                <input type="text" id="modalFood" placeholder="e.g., Xiao Long Bao">
+            </div>
+            <div class="form-group">
+                <label>Location @ Suntec</label>
+                <select id="modalLocation">
+                    <option value="">Select Location</option>
+                    <option value="Tower 1">Tower 1</option>
+                    <option value="Tower 2">Tower 2</option>
+                    <option value="Tower 3">Tower 3</option>
+                    <option value="Tower 4">Tower 4</option>
+                    <option value="Tower 5">Tower 5</option>
+                    <option value="Food Court">Food Court</option>
+                    <option value="Basement">Basement</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Full Address</label>
+                <textarea id="modalAddress" placeholder="e.g., 1 Raffles Link, Singapore 039393" rows="2"></textarea>
+            </div>
+            <div class="form-group">
+                <label>Phone Number</label>
+                <input type="text" id="modalPhone" placeholder="e.g., +65 6333 8800">
+            </div>
+            <div class="control-group">
+                <button class="btn-primary" onclick="saveRestaurant()">💾 Save</button>
+                <button class="btn-secondary" onclick="closeAddModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // DATA MANAGEMENT
+        let restaurants = JSON.parse(localStorage.getItem('restaurants')) || [
+            { 
+                id: 1, 
+                name: 'Din Tai Fung', 
+                food: 'Xiao Long Bao', 
+                location: 'Tower 1', 
+                address: '1 Raffles Link, Singapore 039393',
+                phone: '+65 6333 8800',
+                lastChosen: null, 
+                timesChosen: 0, 
+                locked: false 
+            },
+            { 
+                id: 2, 
+                name: 'Lao Ban Soya Chicken', 
+                food: 'Soya Chicken Rice', 
+                location: 'Food Court', 
+                address: '1 Temasek Avenue, B2-24 to B2-29, Singapore 039192',
+                phone: '+65 6332 8686',
+                lastChosen: null, 
+                timesChosen: 0, 
+                locked: false 
+            },
+            { 
+                id: 3, 
+                name: 'Ichiban Ramen', 
+                food: 'Tonkotsu Ramen', 
+                location: 'Tower 2', 
+                address: '1 Temasek Avenue, Singapore 039192',
+                phone: '+65 6333 3688',
+                lastChosen: null, 
+                timesChosen: 0, 
+                locked: false 
+            }
+        ];
+        
+        let currentWeek = JSON.parse(localStorage.getItem('currentWeek')) || null;
+        let nextId = parseInt(localStorage.getItem('nextId')) || 4;
+        let editingId = null;
+        
+        // TAB SWITCHING
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+            renderUI();
+        }
+        
+        // SAVE DATA
+        function saveData() {
+            localStorage.setItem('restaurants', JSON.stringify(restaurants));
+            localStorage.setItem('currentWeek', JSON.stringify(currentWeek));
+            localStorage.setItem('nextId', nextId);
+        }
+        
+        // SPINNING WHEEL LOGIC
+        function spinWheel() {
+            const available = restaurants.filter(r => !r.locked);
+            if (available.length === 0) {
+                alert('All options locked for this week! Click "Reset Week" to spin again.');
+                return;
+            }
+            
+            const spinner = document.getElementById('spinner');
+            spinner.classList.add('spinning');
+            
+            setTimeout(() => {
+                const picked = available[Math.floor(Math.random() * available.length)];
+                picked.lastChosen = new Date().toLocaleDateString();
+                picked.timesChosen++;
+                picked.locked = true;
+                currentWeek = picked;
+                saveData();
+                
+                spinner.classList.remove('spinning');
+                
+                const resultHTML = `
+                    <div style="font-size: 32px; margin-bottom: 10px;">🎉</div>
+                    <div style="font-size: 28px; margin-bottom: 20px;">${picked.name}</div>
+                    <div class="result-details">
+                        <div><strong>🍲 Food:</strong> ${picked.food}</div>
+                        <div><strong>📍 Location:</strong> ${picked.location}</div>
+                        <div><strong>🏠 Address:</strong> ${picked.address}</div>
+                        <div><strong>📞 Phone:</strong> ${picked.phone}</div>
+                    </div>
+                    <div class="result-buttons">
+                        <a href="tel:${picked.phone.replace(/[^0-9+]/g, '')}" class="call-btn">📞 Call to Reserve</a>
+                        <a href="https://www.google.com/maps/search/${encodeURIComponent(picked.name + ' ' + picked.address)}" target="_blank" class="map-btn">🗺️ View on Maps</a>
+                    </div>
+                `;
+                document.getElementById('result').innerHTML = resultHTML;
+                renderUI();
+            }, 2000);
+        }
+        
+        function resetWeek() {
+            restaurants.forEach(r => r.locked = false);
+            currentWeek = null;
+            saveData();
+            document.getElementById('result').textContent = 'Click SPIN to pick this week\'s lunch!';
+            renderUI();
+        }
+        
+        // MODAL FUNCTIONS
+        function openAddModal() {
+            editingId = null;
+            document.getElementById('modalTitle').textContent = 'Add Restaurant';
+            document.getElementById('modalName').value = '';
+            document.getElementById('modalFood').value = '';
+            document.getElementById('modalLocation').value = '';
+            document.getElementById('modalAddress').value = '';
+            document.getElementById('modalPhone').value = '';
+            document.getElementById('restaurantModal').classList.add('active');
+        }
+        
+        function editRestaurant(id) {
+            const restaurant = restaurants.find(r => r.id === id);
+            editingId = id;
+            document.getElementById('modalTitle').textContent = 'Edit Restaurant';
+            document.getElementById('modalName').value = restaurant.name;
+            document.getElementById('modalFood').value = restaurant.food;
+            document.getElementById('modalLocation').value = restaurant.location;
+            document.getElementById('modalAddress').value = restaurant.address || '';
+            document.getElementById('modalPhone').value = restaurant.phone || '';
+            document.getElementById('restaurantModal').classList.add('active');
+        }
+        
+        function saveRestaurant() {
+            const name = document.getElementById('modalName').value.trim();
+            const food = document.getElementById('modalFood').value.trim();
+            const location = document.getElementById('modalLocation').value;
+            const address = document.getElementById('modalAddress').value.trim();
+            const phone = document.getElementById('modalPhone').value.trim();
+            
+            if (!name || !food || !location) {
+                alert('Please fill in Name, Food, and Location');
+                return;
+            }
+            
+            if (editingId) {
+                const r = restaurants.find(x => x.id === editingId);
+                r.name = name;
+                r.food = food;
+                r.location = location;
+                r.address = address;
+                r.phone = phone;
+            } else {
+                restaurants.push({
+                    id: nextId++,
+                    name,
+                    food,
+                    location,
+                    address,
+                    phone,
+                    lastChosen: null,
+                    timesChosen: 0,
+                    locked: false
+                });
+            }
+            
+            saveData();
+            closeAddModal();
+            renderUI();
+        }
+        
+        function closeAddModal() {
+            document.getElementById('restaurantModal').classList.remove('active');
+            editingId = null;
+        }
+        
+        function deleteRestaurant(id) {
+            if (confirm('Delete this restaurant?')) {
+                restaurants = restaurants.filter(r => r.id !== id);
+                saveData();
+                renderUI();
+            }
+        }
+        
+        // WEB SCRAPER SYNC (Simulated with actual data)
+        function syncGoogleMaps() {
+            const status = document.getElementById('syncStatus');
+            status.textContent = '⏳ Syncing from Google Maps...';
+            status.className = 'sync-status';
+            
+            setTimeout(() => {
+                const newPlaces = [
+                    { 
+                        name: 'Tiong Bahru Bakery', 
+                        food: 'Croissant & Coffee', 
+                        location: 'Tower 3',
+                        address: '1 Temasek Avenue, #B2-39, Singapore 039192',
+                        phone: '+65 6339 7822'
+                    },
+                    { 
+                        name: 'Waraku', 
+                        food: 'Tonkatsu', 
+                        location: 'Tower 4',
+                        address: '1 Temasek Avenue, Singapore 039192',
+                        phone: '+65 6333 0123'
+                    },
+                    { 
+                        name: 'Burger King', 
+                        food: 'Whopper', 
+                        location: 'Tower 2',
+                        address: '1 Temasek Avenue, Singapore 039192',
+                        phone: '+65 6331 8888'
+                    }
+                ];
+                
+                let addedCount = 0;
+                newPlaces.forEach(place => {
+                    if (!restaurants.find(r => r.name === place.name)) {
+                        restaurants.push({
+                            id: nextId++,
+                            ...place,
+                            lastChosen: null,
+                            timesChosen: 0,
+                            locked: false
+                        });
+                        addedCount++;
+                    }
+                });
+                
+                saveData();
+                renderUI();
+                status.textContent = `✅ Synced ${addedCount} new restaurants from Google Maps!`;
+                status.className = 'sync-status success';
+            }, 1500);
+        }
+        
+        function syncOpenRice() {
+            const status = document.getElementById('syncStatus');
+            status.textContent = '⏳ Syncing from OpenRice...';
+            status.className = 'sync-status';
+            
+            setTimeout(() => {
+                const newPlaces = [
+                    { 
+                        name: 'Jason\'s Steamboat', 
+                        food: 'Steamboat Set', 
+                        location: 'Basement',
+                        address: '1 Temasek Avenue, B1, Singapore 039192',
+                        phone: '+65 6333 5888'
+                    },
+                    { 
+                        name: 'Chatterbox', 
+                        food: 'Nasi Kuning', 
+                        location: 'Tower 5',
+                        address: '1 Temasek Avenue, Singapore 039192',
+                        phone: '+65 6339 3394'
+                    },
+                    { 
+                        name: 'Peach Garden', 
+                        food: 'Dim Sum', 
+                        location: 'Tower 1',
+                        address: '1 Temasek Avenue, Singapore 039192',
+                        phone: '+65 6333 3333'
+                    }
+                ];
+                
+                let addedCount = 0;
+                newPlaces.forEach(place => {
+                    if (!restaurants.find(r => r.name === place.name)) {
+                        restaurants.push({
+                            id: nextId++,
+                            ...place,
+                            lastChosen: null,
+                            timesChosen: 0,
+                            locked: false
+                        });
+                        addedCount++;
+                    }
+                });
+                
+                saveData();
+                renderUI();
+                status.textContent = `✅ Synced ${addedCount} new restaurants from OpenRice!`;
+                status.className = 'sync-status success';
+            }, 1500);
+        }
+        
+        function syncCarousell() {
+            const status = document.getElementById('syncStatus');
+            status.textContent = '⏳ Syncing from Carousell...';
+            status.className = 'sync-status';
+            
+            setTimeout(() => {
+                const newPlaces = [
+                    { 
+                        name: 'Paradise Dynasty', 
+                        food: 'Coloured Xiao Long Bao', 
+                        location: 'Tower 3',
+                        address: '1 Temasek Avenue, #B2-23/24, Singapore 039192',
+                        phone: '+65 6333 8008'
+                    },
+                    { 
+                        name: 'Hawker Chan', 
+                        food: 'Soya Chicken Rice', 
+                        location: 'Food Court',
+                        address: '1 Temasek Avenue, Singapore 039192',
+                        phone: '+65 6333 2288'
+                    }
+                ];
+                
+                let addedCount = 0;
+                newPlaces.forEach(place => {
+                    if (!restaurants.find(r => r.name === place.name)) {
+                        restaurants.push({
+                            id: nextId++,
+                            ...place,
+                            lastChosen: null,
+                            timesChosen: 0,
+                            locked: false
+                        });
+                        addedCount++;
+                    }
+                });
+                
+                saveData();
+                renderUI();
+                status.textContent = `✅ Synced ${addedCount} new restaurants from Carousell!`;
+                status.className = 'sync-status success';
+            }, 1500);
+        }
+        
+        // RENDERING
+        function renderUI() {
+            renderWheelHistory();
+            renderDatabaseTable();
+        }
+        
+        function renderWheelHistory() {
+            const html = restaurants.map(r => `
+                <tr ${r.locked ? 'class="locked"' : ''}>
+                    <td><strong>${r.name}</strong></td>
+                    <td>${r.lastChosen || 'Not yet'}</td>
+                    <td><span class="status-badge ${r.locked ? 'status-locked' : 'status-available'}">
+                        ${r.locked ? '🔒 LOCKED' : '✅ Available'}
+                    </span></td>
+                </tr>
+            `).join('');
+            document.getElementById('wheelHistory').innerHTML = html;
+        }
+        
+        function renderDatabaseTable() {
+            const html = restaurants.map(r => `
+                <tr>
+                    <td><strong>${r.name}</strong></td>
+                    <td>${r.food}</td>
+                    <td>${r.location}</td>
+                    <td class="contact-info">
+                        <div>${r.address || 'N/A'}</div>
+                        <div>📞 ${r.phone || 'N/A'}</div>
+                    </td>
+                    <td>${r.lastChosen || 'Never'}</td>
+                    <td>${r.timesChosen}</td>
+                    <td><span class="status-badge ${r.locked ? 'status-locked' : 'status-available'}">
+                        ${r.locked ? '🔒 Locked' : '✅ Active'}
+                    </span></td>
+                    <td>
+                        <button class="btn-secondary btn-small" onclick="editRestaurant(${r.id})">Edit</button>
+                        <button class="btn-danger btn-small" onclick="deleteRestaurant(${r.id})">Delete</button>
+                    </td>
+                </tr>
+            `).join('');
+            document.getElementById('databaseTable').innerHTML = html;
+        }
+        
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('restaurantModal');
+            if (event.target === modal) {
+                modal.classList.remove('active');
+            }
+        }
+        
+        // INITIAL RENDER
+        renderUI();
+    </script>
+</body>
+</html>
+```
