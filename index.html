@@ -1,34 +1,38 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Suntec Food Wheel</title>
+    <title>Suntec Food Wheel - Management System</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: Arial, sans-serif; background: #f5f5f5; }
+        
         .header { background: #333; color: white; padding: 20px; text-align: center; }
-        .tab-buttons { display: flex; background: #444; }
-        .tab-btn { flex: 1; padding: 15px; border: none; background: #555; color: white; cursor: pointer; font-weight: 600; transition: 0.3s; }
+        .tab-buttons { display: flex; background: #444; padding: 0; }
+        .tab-btn { flex: 1; padding: 15px; border: none; background: #555; color: white; cursor: pointer; font-size: 16px; font-weight: 600; transition: 0.3s; }
         .tab-btn:hover { background: #666; }
         .tab-btn.active { background: #4CAF50; }
+        
         .tab-content { display: none; padding: 20px; }
         .tab-content.active { display: block; }
         
         .wheel-container { max-width: 900px; margin: 0 auto; }
         .spinner-wrapper { text-align: center; padding: 40px; }
+        
         .category-selector { background: white; padding: 20px; border-radius: 5px; margin-bottom: 30px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .category-toggle { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 15px; }
-        .category-toggle-btn { padding: 10px 20px; border: 2px solid #ddd; background: white; border-radius: 20px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        .category-selector h3 { margin-bottom: 15px; }
+        .category-toggle { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+        .category-toggle-btn { padding: 10px 20px; border: 2px solid #ddd; background: white; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 14px; transition: all 0.3s; }
         .category-toggle-btn:hover { border-color: #4CAF50; }
         .category-toggle-btn.active { background: #4CAF50; color: white; border-color: #4CAF50; }
         
-        .spinner { width: 250px; height: 250px; border-radius: 50%; margin: 0 auto 30px; display: flex; align-items: center; justify-content: center; font-size: 60px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
-        .spinner.spinning { animation: spin 2s ease-out; }
+        .spinner { width: 250px; height: 250px; border-radius: 50%; margin: 0 auto 30px; display: flex; align-items: center; justify-content: center; font-size: 60px; font-weight: bold; color: white; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        .spinner.spinning { animation: spin 2s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+        
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(1800deg); } }
         
-        .spin-button { background: #4CAF50; color: white; padding: 15px 40px; font-size: 16px; border: none; border-radius: 5px; cursor: pointer; margin: 10px; font-weight: 600; transition: 0.3s; }
+        .spin-button { background: #4CAF50; color: white; padding: 15px 40px; font-size: 18px; border: none; border-radius: 5px; cursor: pointer; margin: 10px; font-weight: 600; }
         .spin-button:hover { background: #45a049; }
         .spin-button.btn-secondary { background: #2196F3; }
         .spin-button.btn-secondary:hover { background: #0b7dda; }
@@ -38,38 +42,52 @@
         .result-details div { margin: 8px 0; padding: 8px; background: #f9f9f9; border-left: 3px solid #4CAF50; }
         
         .result-buttons { margin-top: 20px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
-        .result-buttons a { padding: 10px 15px; font-size: 14px; border: none; border-radius: 5px; text-decoration: none; color: white; font-weight: 600; cursor: pointer; }
+        .result-buttons a { padding: 10px 15px; font-size: 14px; border: none; border-radius: 5px; cursor: pointer; text-decoration: none; color: white; font-weight: 600; }
         .map-btn { background: #FF9800; }
         .call-btn { background: #2196F3; }
         
         .history-small { background: #fff; padding: 20px; margin-top: 20px; border-radius: 5px; }
         .available-options { background: #fff; padding: 20px; margin-top: 20px; border-radius: 5px; }
+        
         .options-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; margin-top: 15px; }
-        .option-card { background: #f9f9f9; padding: 12px; border-radius: 5px; border-left: 3px solid #4CAF50; opacity: 1; }
-        .option-card.locked { opacity: 0.5; background: #ffe0e0; }
+        .option-card { background: #f9f9f9; padding: 12px; border-radius: 5px; border-left: 3px solid #4CAF50; }
+        .option-card strong { display: block; margin-bottom: 5px; }
+        .option-card small { color: #666; font-size: 12px; }
         
         .dashboard-container { max-width: 1400px; margin: 0 auto; }
         .controls { background: white; padding: 20px; border-radius: 5px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .controls h3 { margin-bottom: 15px; }
+        
         .control-group { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; }
         input, select, textarea { padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-size: 14px; }
         input, textarea { flex: 1; min-width: 150px; }
-        button { padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 14px; font-weight: 600; }
+        
+        button { padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 14px; }
         .btn-primary { background: #4CAF50; color: white; }
         .btn-primary:hover { background: #45a049; }
         .btn-secondary { background: #2196F3; color: white; }
+        .btn-secondary:hover { background: #0b7dda; }
         .btn-danger { background: #f44336; color: white; }
+        .btn-danger:hover { background: #da190b; }
         .btn-small { padding: 5px 10px; font-size: 12px; }
         
+        .table-wrapper { overflow-x: auto; }
         table { width: 100%; border-collapse: collapse; background: white; border-radius: 5px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; font-size: 13px; }
         th { background: #333; color: white; font-weight: bold; }
         tr:hover { background: #f5f5f5; }
         
-        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.4); overflow: auto; }
+        .status-badge { display: inline-block; padding: 5px 10px; border-radius: 20px; font-size: 11px; font-weight: bold; }
+        .status-available { background: #d4edda; color: #155724; }
+        .status-locked { background: #f8d7da; color: #721c24; }
+        
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.4); }
         .modal.active { display: block; }
         .modal-content { background-color: #fefefe; margin: 10% auto; padding: 20px; border: 1px solid #888; width: 90%; max-width: 600px; border-radius: 5px; }
         .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         .close-btn { font-size: 28px; font-weight: bold; cursor: pointer; color: #aaa; }
+        .close-btn:hover { color: #000; }
+        
         .form-group { margin-bottom: 15px; }
         .form-group label { display: block; font-weight: bold; margin-bottom: 5px; }
         .form-group input, .form-group textarea, .form-group select { width: 100%; }
@@ -81,13 +99,14 @@
         .scraper-section { background: #f0f0f0; padding: 20px; border-radius: 5px; margin-bottom: 20px; }
         .scraper-input-group { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; }
         .scraper-input-group input { flex: 1; min-width: 200px; }
+        .scraper-help { background: #fff3cd; padding: 10px; border-left: 3px solid #ff9800; margin-top: 10px; border-radius: 3px; font-size: 12px; }
         .scraper-history { margin-top: 15px; }
         .scraper-link-item { background: white; padding: 10px; border-radius: 5px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
         .scraper-link-item a { color: #2196F3; text-decoration: none; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         
-        h3, h4 { margin-bottom: 15px; }
-        .history-log { background: #fff; padding: 15px; border-radius: 5px; margin-top: 20px; font-size: 12px; max-height: 400px; overflow-y: auto; }
-        .history-item { padding: 10px; background: #f9f9f9; margin: 5px 0; border-left: 3px solid #2196F3; border-radius: 3px; }
+        .sync-status { padding: 10px; margin-top: 10px; border-radius: 5px; text-align: center; display: none; }
+        .sync-status.success { background: #d4edda; color: #155724; display: block; }
+        .sync-status.error { background: #f8d7da; color: #721c24; display: block; }
     </style>
 </head>
 <body>
@@ -96,20 +115,20 @@
     </div>
     
     <div class="tab-buttons">
-        <button class="tab-btn active" data-tab="wheel" onclick="switchTab('wheel', this)">🎡 Spinning Wheel</button>
-        <button class="tab-btn" data-tab="manage" onclick="switchTab('manage', this)">⚙️ Manage Database</button>
+        <button class="tab-btn active" onclick="switchTab('wheel', this)">🎡 Spinning Wheel</button>
+        <button class="tab-btn" onclick="switchTab('manage', this)">⚙️ Manage Database</button>
     </div>
     
     <!-- SPINNING WHEEL -->
     <div id="wheel" class="tab-content active">
         <div class="wheel-container">
             <div class="category-selector">
-                <h3>Select Fellowship Type:</h3>
+                <h3>Select Fellowship Type to Spin For:</h3>
                 <div class="category-toggle">
-                    <button class="category-toggle-btn active" onclick="selectCategory(this, 'all')">🍽️ All</button>
-                    <button class="category-toggle-btn" onclick="selectCategory(this, 'Mains')">🍲 Mains</button>
-                    <button class="category-toggle-btn" onclick="selectCategory(this, 'Drinks')">🥤 Drinks</button>
-                    <button class="category-toggle-btn" onclick="selectCategory(this, 'Dessert')">🍰 Dessert</button>
+                    <button class="category-toggle-btn active" onclick="selectWheelCategory('all', this)">🍽️ All</button>
+                    <button class="category-toggle-btn" onclick="selectWheelCategory('Mains', this)">🍲 Mains</button>
+                    <button class="category-toggle-btn" onclick="selectWheelCategory('Drinks', this)">🥤 Drinks</button>
+                    <button class="category-toggle-btn" onclick="selectWheelCategory('Dessert', this)">🍰 Dessert</button>
                 </div>
             </div>
 
@@ -120,39 +139,40 @@
             
             <div class="spinner-wrapper">
                 <div class="spinner" id="spinner">🍽️</div>
-                <button class="spin-button" onclick="askName()">🎡 SPIN WHEEL</button>
-                <button class="spin-button btn-secondary" onclick="resetWeek()">🔄 Next Week</button>
+                <button class="spin-button" onclick="askSpinnerName()">🎡 SPIN WHEEL</button>
+                <button class="spin-button btn-secondary" onclick="resetWeek()">Reset Week</button>
             </div>
             
-            <div class="result-box" id="result">Click SPIN to pick!</div>
+            <div class="result-box" id="result">Click SPIN to pick this week's fellowship!</div>
             
             <div class="history-small">
-                <h3>📊 This Week's Spins (<span id="spinCount">0</span>):</h3>
-                <div style="overflow-x: auto;">
+                <h3>This Week's Status:</h3>
+                <div class="table-wrapper">
                     <table>
-                        <thead><tr><th>#</th><th>Restaurant</th><th>Spun By</th><th>Time</th></tr></thead>
+                        <thead>
+                            <tr>
+                                <th>Restaurant</th>
+                                <th>Last Chosen</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
                         <tbody id="wheelHistory"></tbody>
                     </table>
                 </div>
             </div>
-
-            <div class="history-log">
-                <h4>📜 All-Time History:</h4>
-                <div id="allTimeHistory"></div>
-            </div>
         </div>
     </div>
     
-    <!-- DATABASE -->
+    <!-- MANAGEMENT DASHBOARD -->
     <div id="manage" class="tab-content">
         <div class="dashboard-container">
             <div class="controls">
-                <h3>Add Restaurant</h3>
+                <h3>Add New Restaurant</h3>
                 <div class="control-group">
-                    <input type="text" id="name" placeholder="Name">
-                    <input type="text" id="food" placeholder="Food">
+                    <input type="text" id="restaurantName" placeholder="Restaurant name">
+                    <input type="text" id="foodOption" placeholder="Food option">
                     <select id="location">
-                        <option value="">Location</option>
+                        <option value="">Select Location</option>
                         <option value="Tower 1">Tower 1</option>
                         <option value="Tower 2">Tower 2</option>
                         <option value="Tower 3">Tower 3</option>
@@ -164,41 +184,40 @@
                 </div>
                 <div class="control-group">
                     <select id="category">
-                        <option value="">Category</option>
+                        <option value="">Select Category</option>
                         <option value="Mains">🍲 Mains</option>
                         <option value="Drinks">🥤 Drinks</option>
                         <option value="Dessert">🍰 Dessert</option>
                     </select>
                     <input type="text" id="address" placeholder="Address">
-                    <input type="text" id="phone" placeholder="Phone">
-                    <button class="btn-primary" onclick="openModal()">➕ Add</button>
+                    <input type="text" id="phone" placeholder="Phone number">
+                    <button class="btn-primary" onclick="addRestaurant()">➕ Add</button>
                 </div>
             </div>
 
-            <div class="scraper-section">
-                <h3>🔗 Web Scraper</h3>
-                <div class="scraper-input-group">
-                    <input type="text" id="scraperLink" placeholder="https://...">
-                    <input type="text" id="scraperCategory" placeholder="Category" value="Mains">
-                    <button class="btn-secondary" onclick="addScraperLink()">➕ Add</button>
-                </div>
-                <h4>Links:</h4>
-                <div class="scraper-history" id="scraperHistory"><p style="color: #999;">No links</p></div>
-                <button class="btn-secondary" style="margin-top: 10px;" onclick="scrapeAllLinks()">🔗 Open All</button>
-            </div>
-
-            <h3>Filter:</h3>
+            <h3>Filter by Category</h3>
             <div class="filter-buttons">
-                <button class="filter-btn active" onclick="filterCat(this, 'all')">All</button>
-                <button class="filter-btn" onclick="filterCat(this, 'Mains')">🍲 Mains</button>
-                <button class="filter-btn" onclick="filterCat(this, 'Drinks')">🥤 Drinks</button>
-                <button class="filter-btn" onclick="filterCat(this, 'Dessert')">🍰 Dessert</button>
+                <button class="filter-btn active" onclick="filterCategory('all', this)">All</button>
+                <button class="filter-btn" onclick="filterCategory('Mains', this)">🍲 Mains</button>
+                <button class="filter-btn" onclick="filterCategory('Drinks', this)">🥤 Drinks</button>
+                <button class="filter-btn" onclick="filterCategory('Dessert', this)">🍰 Dessert</button>
             </div>
             
-            <h3>Database</h3>
-            <div style="overflow-x: auto;">
+            <h3>Restaurant Database</h3>
+            <div class="table-wrapper">
                 <table>
-                    <thead><tr><th>Restaurant</th><th>Category</th><th>Food</th><th>Location</th><th>Address</th><th>Phone</th><th>Total Spins</th><th>Action</th></tr></thead>
+                    <thead>
+                        <tr>
+                            <th>Restaurant</th>
+                            <th>Category</th>
+                            <th>Food Option</th>
+                            <th>Location</th>
+                            <th>Address</th>
+                            <th>Phone</th>
+                            <th>Times Chosen</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
                     <tbody id="databaseTable"></tbody>
                 </table>
             </div>
@@ -206,35 +225,70 @@
     </div>
     
     <!-- MODALS -->
-    <div id="modal" class="modal">
+    <div id="restaurantModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
                 <h2>Add Restaurant</h2>
-                <span class="close-btn" onclick="closeModal()">&times;</span>
+                <span class="close-btn" onclick="closeAddModal()">&times;</span>
             </div>
-            <div class="form-group"><label>Name</label><input type="text" id="modalName"></div>
-            <div class="form-group"><label>Category</label><select id="modalCategory"><option value="">Select</option><option value="Mains">🍲 Mains</option><option value="Drinks">🥤 Drinks</option><option value="Dessert">🍰 Dessert</option></select></div>
-            <div class="form-group"><label>Food</label><input type="text" id="modalFood"></div>
-            <div class="form-group"><label>Location</label><select id="modalLocation"><option value="">Select</option><option value="Tower 1">Tower 1</option><option value="Tower 2">Tower 2</option><option value="Tower 3">Tower 3</option><option value="Tower 4">Tower 4</option><option value="Tower 5">Tower 5</option><option value="Food Court">Food Court</option><option value="Basement">Basement</option></select></div>
-            <div class="form-group"><label>Address</label><textarea id="modalAddress" rows="2"></textarea></div>
-            <div class="form-group"><label>Phone</label><input type="text" id="modalPhone"></div>
+            <div class="form-group">
+                <label>Restaurant Name</label>
+                <input type="text" id="modalName">
+            </div>
+            <div class="form-group">
+                <label>Category</label>
+                <select id="modalCategory">
+                    <option value="">Select</option>
+                    <option value="Mains">🍲 Mains</option>
+                    <option value="Drinks">🥤 Drinks</option>
+                    <option value="Dessert">🍰 Dessert</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Food Option</label>
+                <input type="text" id="modalFood">
+            </div>
+            <div class="form-group">
+                <label>Location</label>
+                <select id="modalLocation">
+                    <option value="">Select</option>
+                    <option value="Tower 1">Tower 1</option>
+                    <option value="Tower 2">Tower 2</option>
+                    <option value="Tower 3">Tower 3</option>
+                    <option value="Tower 4">Tower 4</option>
+                    <option value="Tower 5">Tower 5</option>
+                    <option value="Food Court">Food Court</option>
+                    <option value="Basement">Basement</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Address</label>
+                <textarea id="modalAddress" rows="2"></textarea>
+            </div>
+            <div class="form-group">
+                <label>Phone</label>
+                <input type="text" id="modalPhone">
+            </div>
             <div class="control-group">
-                <button class="btn-primary" onclick="saveRest()">💾 Save</button>
-                <button class="btn-secondary" onclick="closeModal()">Cancel</button>
+                <button class="btn-primary" onclick="saveRestaurant()">💾 Save</button>
+                <button class="btn-secondary" onclick="closeAddModal()">Cancel</button>
             </div>
         </div>
     </div>
 
-    <div id="nameModal" class="modal">
+    <div id="spinnerModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
                 <h2>Who's Spinning?</h2>
-                <span class="close-btn" onclick="closeName()">&times;</span>
+                <span class="close-btn" onclick="closeSpinnerModal()">&times;</span>
             </div>
-            <div class="form-group"><label>Your Name</label><input type="text" id="spinnerName" onkeypress="if(event.key==='Enter') spin()"></div>
+            <div class="form-group">
+                <label>Your Name</label>
+                <input type="text" id="spinnerName" onkeypress="if(event.key==='Enter') proceedSpin()">
+            </div>
             <div class="control-group">
-                <button class="btn-primary" onclick="spin()">Spin</button>
-                <button class="btn-secondary" onclick="closeName()">Cancel</button>
+                <button class="btn-primary" onclick="proceedSpin()">Spin</button>
+                <button class="btn-secondary" onclick="closeSpinnerModal()">Cancel</button>
             </div>
         </div>
     </div>
@@ -242,215 +296,258 @@
     <script>
         // DATA
         let restaurants = JSON.parse(localStorage.getItem('restaurants')) || [
-            { id: 1, name: 'Din Tai Fung', food: 'Xiao Long Bao', category: 'Mains', location: 'Tower 1', address: '1 Raffles Link', phone: '+65 6333 8800' },
-            { id: 2, name: 'Lao Ban Soya Chicken', food: 'Soya Chicken Rice', category: 'Mains', location: 'Food Court', address: '1 Temasek Avenue', phone: '+65 6332 8686' },
-            { id: 3, name: 'Ichiban Ramen', food: 'Tonkotsu Ramen', category: 'Mains', location: 'Tower 2', address: '1 Temasek Avenue', phone: '+65 6333 3688' }
+            { id: 1, name: 'Din Tai Fung', food: 'Xiao Long Bao', category: 'Mains', location: 'Tower 1', address: '1 Raffles Link', phone: '+65 6333 8800', lastChosen: null, timesChosen: 0, locked: false },
+            { id: 2, name: 'Lao Ban Soya Chicken', food: 'Soya Chicken Rice', category: 'Mains', location: 'Food Court', address: '1 Temasek Avenue', phone: '+65 6332 8686', lastChosen: null, timesChosen: 0, locked: false },
+            { id: 3, name: 'Ichiban Ramen', food: 'Tonkotsu Ramen', category: 'Mains', location: 'Tower 2', address: '1 Temasek Avenue', phone: '+65 6333 3688', lastChosen: null, timesChosen: 0, locked: false }
         ];
-        let spins = JSON.parse(localStorage.getItem('spins')) || [];
-        let scraperLinks = JSON.parse(localStorage.getItem('scraperLinks')) || [];
+
         let nextId = 4;
         let currentFilter = 'all';
-        let selectedCat = 'all';
+        let selectedWheelCategory = 'all';
+        let lastSpinner = localStorage.getItem('lastSpinner') || '';
+        let currentWeek = JSON.parse(localStorage.getItem('currentWeek')) || null;
 
-        function getWeekStart() {
-            const now = new Date();
-            const day = now.getDay();
-            const diff = now.getDate() - day + (day === 0 ? -6 : 1);
-            return new Date(now.setDate(diff)).toISOString().split('T')[0];
-        }
-
-        function save() {
+        function saveData() {
             localStorage.setItem('restaurants', JSON.stringify(restaurants));
-            localStorage.setItem('spins', JSON.stringify(spins));
-            localStorage.setItem('scraperLinks', JSON.stringify(scraperLinks));
             localStorage.setItem('nextId', nextId);
+            localStorage.setItem('lastSpinner', lastSpinner);
+            localStorage.setItem('currentWeek', JSON.stringify(currentWeek));
         }
 
         // ✅ FIXED TAB SWITCHING
         function switchTab(tabName, button) {
-            document.querySelectorAll('.tab-content').forEach(e => e.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(e => e.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
             document.getElementById(tabName).classList.add('active');
             button.classList.add('active');
-            render();
+            renderUI();
         }
 
-        function selectCategory(button, cat) {
-            selectedCat = cat;
+        function selectWheelCategory(category, button) {
+            selectedWheelCategory = category;
             document.querySelectorAll('.category-toggle-btn').forEach(b => b.classList.remove('active'));
             button.classList.add('active');
-            renderOptions();
+            renderAvailableOptions();
         }
 
-        function renderOptions() {
-            const weekStart = getWeekStart();
-            const thisWeekSpins = spins.filter(s => s.weekStart === weekStart);
-            const lockedIds = new Set(thisWeekSpins.map(s => s.restaurantId));
-            const filtered = selectedCat === 'all' ? restaurants : restaurants.filter(r => r.category === selectedCat);
-            const html = filtered.map(r => {
-                const isLocked = lockedIds.has(r.id);
-                return `<div class="option-card ${isLocked ? 'locked' : ''}"><strong>${r.name}</strong><small>${r.food}${isLocked ? ' ✓' : ''}</small></div>`;
-            }).join('');
+        function filterCategory(category, button) {
+            currentFilter = category;
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            button.classList.add('active');
+            renderDatabaseTable();
+        }
+
+        function renderAvailableOptions() {
+            const filtered = selectedWheelCategory === 'all' 
+                ? restaurants.filter(r => !r.locked)
+                : restaurants.filter(r => r.category === selectedWheelCategory && !r.locked);
+            
+            const html = filtered.map(r => `
+                <div class="option-card">
+                    <strong>\${r.name}</strong>
+                    <small>\${r.food}</small>
+                </div>
+            `).join('') || '<p>No options available</p>';
+            
             document.getElementById('availableOptions').innerHTML = html;
         }
 
-        function askName() {
-            document.getElementById('nameModal').classList.add('active');
+        function renderDatabaseTable() {
+            const filtered = currentFilter === 'all' 
+                ? restaurants 
+                : restaurants.filter(r => r.category === currentFilter);
+            
+            const html = filtered.map(r => `
+                <tr>
+                    <td>\${r.name}</td>
+                    <td>\${r.category}</td>
+                    <td>\${r.food}</td>
+                    <td>\${r.location}</td>
+                    <td>\${r.address}</td>
+                    <td>\${r.phone}</td>
+                    <td>\${r.timesChosen}</td>
+                    <td><span class="status-badge \${r.locked ? 'status-locked' : 'status-available'}">\${r.locked ? 'Locked' : 'Available'}</span></td>
+                    <td>
+                        <button class="btn-danger btn-small" onclick="deleteRestaurant(\${r.id})">Delete</button>
+                    </td>
+                </tr>
+            `).join('') || '<tr><td colspan="9">No restaurants</td></tr>';
+            
+            document.getElementById('databaseTable').innerHTML = html;
+        }
+
+        function renderWheelHistory() {
+            const html = restaurants.map(r => `
+                <tr>
+                    <td>\${r.name}</td>
+                    <td>\${r.lastChosen || 'Not yet'}</td>
+                    <td><span class="status-badge \${r.locked ? 'status-locked' : 'status-available'}">\${r.locked ? 'This Week' : 'Available'}</span></td>
+                </tr>
+            `).join('');
+            
+            document.getElementById('wheelHistory').innerHTML = html;
+        }
+
+        function renderUI() {
+            renderAvailableOptions();
+            renderDatabaseTable();
+            renderWheelHistory();
+        }
+
+        function addRestaurant() {
+            const name = document.getElementById('restaurantName').value.trim();
+            const food = document.getElementById('foodOption').value.trim();
+            const location = document.getElementById('location').value;
+            const category = document.getElementById('category').value;
+            const address = document.getElementById('address').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+
+            if (!name || !food || !location || !category || !address || !phone) {
+                alert('Please fill in all fields');
+                return;
+            }
+
+            restaurants.push({
+                id: nextId++,
+                name, food, category, location, address, phone,
+                lastChosen: null,
+                timesChosen: 0,
+                locked: false
+            });
+
+            saveData();
+            document.getElementById('restaurantName').value = '';
+            document.getElementById('foodOption').value = '';
+            document.getElementById('location').value = '';
+            document.getElementById('category').value = '';
+            document.getElementById('address').value = '';
+            document.getElementById('phone').value = '';
+            
+            renderUI();
+            alert('Restaurant added!');
+        }
+
+        function deleteRestaurant(id) {
+            if (confirm('Delete this restaurant?')) {
+                restaurants = restaurants.filter(r => r.id !== id);
+                saveData();
+                renderUI();
+            }
+        }
+
+        function askSpinnerName() {
+            document.getElementById('spinnerModal').classList.add('active');
             document.getElementById('spinnerName').focus();
         }
 
-        function closeName() {
-            document.getElementById('nameModal').classList.remove('active');
+        function closeSpinnerModal() {
+            document.getElementById('spinnerModal').classList.remove('active');
         }
 
-        function spin() {
+        function proceedSpin() {
             const name = document.getElementById('spinnerName').value.trim();
-            if (!name) { alert('Enter name'); return; }
-            closeName();
+            if (!name) {
+                alert('Please enter your name');
+                return;
+            }
+
+            lastSpinner = name;
+            saveData();
+            closeSpinnerModal();
             document.getElementById('spinnerName').value = '';
-            spinWheel(name);
+            spinWheel();
         }
 
-        function spinWheel(spinnerName) {
-            const weekStart = getWeekStart();
-            const thisWeekSpins = spins.filter(s => s.weekStart === weekStart);
-            const lockedIds = new Set(thisWeekSpins.map(s => s.restaurantId));
-            const filtered = selectedCat === 'all' ? restaurants.filter(r => !lockedIds.has(r.id)) : restaurants.filter(r => r.category === selectedCat && !lockedIds.has(r.id));
-            if (filtered.length === 0) { alert('All chosen!'); return; }
-            
+        function spinWheel() {
+            const filtered = selectedWheelCategory === 'all' 
+                ? restaurants.filter(r => !r.locked)
+                : restaurants.filter(r => r.category === selectedWheelCategory && !r.locked);
+
+            if (filtered.length === 0) {
+                alert('No restaurants available to spin!');
+                return;
+            }
+
             const spinner = document.getElementById('spinner');
             spinner.classList.remove('spinning');
             void spinner.offsetWidth;
             spinner.classList.add('spinning');
-            
+
             setTimeout(() => {
                 const selected = filtered[Math.floor(Math.random() * filtered.length)];
-                const now = new Date();
-                spins.push({ weekStart, restaurantId: selected.id, spinnerName, timestamp: now.toLocaleString() });
-                save();
+                selected.lastChosen = new Date().toLocaleDateString();
+                selected.timesChosen++;
+                selected.locked = true;
+                currentWeek = selected;
+                saveData();
+
                 document.getElementById('result').innerHTML = `
-                    <h2 style="color: #4CAF50;">${selected.name}</h2>
+                    <div style="color: #4CAF50; margin-bottom: 15px;">\${selected.name}</div>
                     <div class="result-details">
-                        <div><strong>Food:</strong> ${selected.food}</div>
-                        <div><strong>Location:</strong> ${selected.location}</div>
-                        <div><strong>Address:</strong> ${selected.address}</div>
-                        <div><strong>Phone:</strong> ${selected.phone}</div>
-                        <div><strong>Spun by:</strong> ${spinnerName}</div>
-                        <div><strong>Time:</strong> ${now.toLocaleString()}</div>
+                        <div><strong>Food:</strong> \${selected.food}</div>
+                        <div><strong>Location:</strong> \${selected.location}</div>
+                        <div><strong>Address:</strong> \${selected.address}</div>
+                        <div><strong>Phone:</strong> \${selected.phone}</div>
+                        <div><strong>Spun by:</strong> \${lastSpinner}</div>
                     </div>
                     <div class="result-buttons">
-                        <a href="https://maps.google.com/?q=${encodeURIComponent(selected.address)}" target="_blank" class="map-btn">📍 Map</a>
-                        <a href="tel:${selected.phone.replace(/\D/g, '')}" class="call-btn">📞 Call</a>
+                        <a href="[https://maps.google.com/?q=](https://maps.google.com/?q=)\${encodeURIComponent(selected.address)}" class="map-btn" target="_blank">📍 Map</a>
+                        <a href="tel:\${selected.phone.replace(/\D/g, '')}" class="call-btn">📞 Call</a>
                     </div>
                 `;
+
                 spinner.classList.remove('spinning');
-                render();
+                renderUI();
             }, 2000);
         }
 
         function resetWeek() {
-            if (confirm('Next week?')) {
-                document.getElementById('result').innerHTML = 'Click SPIN!';
-                render();
+            if (confirm('Reset this week\'s selections?')) {
+                restaurants.forEach(r => r.locked = false);
+                currentWeek = null;
+                saveData();
+                document.getElementById('result').innerHTML = 'Click SPIN to pick this week\'s fellowship!';
+                renderUI();
             }
         }
 
-        function openModal() { document.getElementById('modal').classList.add('active'); }
-        function closeModal() { document.getElementById('modal').classList.remove('active'); }
+        function openAddModal() {
+            document.getElementById('restaurantModal').classList.add('active');
+        }
 
-        function saveRest() {
+        function closeAddModal() {
+            document.getElementById('restaurantModal').classList.remove('active');
+        }
+
+        function saveRestaurant() {
             const name = document.getElementById('modalName').value.trim();
-            const cat = document.getElementById('modalCategory').value;
+            const category = document.getElementById('modalCategory').value;
             const food = document.getElementById('modalFood').value.trim();
-            const loc = document.getElementById('modalLocation').value;
-            const addr = document.getElementById('modalAddress').value.trim();
-            const ph = document.getElementById('modalPhone').value.trim();
-            if (!name || !cat || !food || !loc || !addr || !ph) { alert('Fill all!'); return; }
-            restaurants.push({ id: nextId++, name, food, category: cat, location: loc, address: addr, phone: ph });
-            save();
-            closeModal();
-            document.getElementById('modalName').value = '';
-            document.getElementById('modalCategory').value = '';
-            document.getElementById('modalFood').value = '';
-            document.getElementById('modalLocation').value = '';
-            document.getElementById('modalAddress').value = '';
-            document.getElementById('modalPhone').value = '';
-            render();
-        }
+            const location = document.getElementById('modalLocation').value;
+            const address = document.getElementById('modalAddress').value.trim();
+            const phone = document.getElementById('modalPhone').value.trim();
 
-        function deleteRest(id) {
-            if (confirm('Delete?')) {
-                restaurants = restaurants.filter(r => r.id !== id);
-                save();
-                render();
+            if (!name || !category || !food || !location || !address || !phone) {
+                alert('Please fill in all fields');
+                return;
             }
+
+            restaurants.push({
+                id: nextId++,
+                name, food, category, location, address, phone,
+                lastChosen: null,
+                timesChosen: 0,
+                locked: false
+            });
+
+            saveData();
+            closeAddModal();
+            renderUI();
+            alert('Restaurant added!');
         }
 
-        function filterCat(button, cat) {
-            currentFilter = cat;
-            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-            button.classList.add('active');
-            renderTable();
-        }
-
-        function renderTable() {
-            const filtered = currentFilter === 'all' ? restaurants : restaurants.filter(r => r.category === currentFilter);
-            const html = filtered.map(r => {
-                const totalSpins = spins.filter(s => s.restaurantId === r.id).length;
-                return `<tr><td>${r.name}</td><td>${r.category}</td><td>${r.food}</td><td>${r.location}</td><td>${r.address}</td><td>${r.phone}</td><td>${totalSpins}</td><td><button class="btn-danger btn-small" onclick="deleteRest(${r.id})">Delete</button></td></tr>`;
-            }).join('');
-            document.getElementById('databaseTable').innerHTML = html;
-        }
-
-        function renderWheel() {
-            const weekStart = getWeekStart();
-            const thisWeekSpins = spins.filter(s => s.weekStart === weekStart);
-            document.getElementById('spinCount').textContent = thisWeekSpins.length;
-            const html = thisWeekSpins.map((s, i) => {
-                const r = restaurants.find(x => x.id === s.restaurantId);
-                return `<tr><td>${i+1}</td><td>${r.name}</td><td>${s.spinnerName}</td><td>${s.timestamp}</td></tr>`;
-            }).join('');
-            document.getElementById('wheelHistory').innerHTML = html;
-            const allHtml = spins.slice(-20).reverse().map(s => {
-                const r = restaurants.find(x => x.id === s.restaurantId);
-                return `<div class="history-item"><strong>${r.name}</strong> - ${s.spinnerName} on ${s.timestamp}</div>`;
-            }).join('');
-            document.getElementById('allTimeHistory').innerHTML = allHtml;
-        }
-
-        function addScraperLink() {
-            const link = document.getElementById('scraperLink').value.trim();
-            const cat = document.getElementById('scraperCategory').value || 'Mains';
-            if (!link || (!link.startsWith('http://') && !link.startsWith('https://'))) { alert('Valid URL!'); return; }
-            scraperLinks.push({ id: Date.now(), link, category: cat, dateAdded: new Date().toLocaleDateString() });
-            save();
-            document.getElementById('scraperLink').value = '';
-            renderScraperLinks();
-        }
-
-        function renderScraperLinks() {
-            const html = scraperLinks.length === 0 ? '<p style="color: #999;">No links</p>' : scraperLinks.map(item => `
-                <div class="scraper-link-item">
-                    <a href="${item.link}" target="_blank">🔗 ${item.link.substring(0, 50)}...</a>
-                    <button class="btn-danger btn-small" onclick="scraperLinks=scraperLinks.filter(l=>l.id!==${item.id});save();renderScraperLinks()">×</button>
-                </div>
-            `).join('');
-            document.getElementById('scraperHistory').innerHTML = html;
-        }
-
-        function scrapeAllLinks() {
-            if (scraperLinks.length === 0) { alert('No links!'); return; }
-            scraperLinks.forEach(item => window.open(item.link, '_blank'));
-        }
-
-        function render() {
-            renderOptions();
-            renderWheel();
-            renderTable();
-            renderScraperLinks();
-        }
-
-        render();
+        // Initialize
+        document.addEventListener('DOMContentLoaded', renderUI);
     </script>
 </body>
 </html>
