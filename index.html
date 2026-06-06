@@ -9,561 +9,149 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: Arial, sans-serif; background: #f5f5f5; }
         
-        .header {
-            background: #333;
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
+        .header { background: #333; color: white; padding: 20px; text-align: center; }
         
-        .tab-buttons {
-            display: flex;
-            background: #444;
-            padding: 0;
-        }
+        .tab-buttons { display: flex; background: #444; padding: 0; }
         
         .tab-btn {
-            flex: 1;
-            padding: 15px;
-            border: none;
-            background: #555;
-            color: white;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 600;
+            flex: 1; padding: 15px; border: none; background: #555; color: white;
+            cursor: pointer; font-size: 16px; font-weight: 600;
         }
         
-        .tab-btn:hover {
-            background: #666;
-        }
+        .tab-btn:hover { background: #666; }
+        .tab-btn.active { background: #4CAF50; }
         
-        .tab-btn.active {
-            background: #4CAF50;
-        }
+        .tab-content { display: none; padding: 20px; }
+        .tab-content.active { display: block; }
         
-        .tab-content {
-            display: none;
-            padding: 20px;
-        }
+        .wheel-container { max-width: 900px; margin: 0 auto; }
+        .spinner-wrapper { text-align: center; padding: 40px; }
         
-        .tab-content.active {
-            display: block;
-        }
+        .category-selector { background: white; padding: 20px; border-radius: 5px; margin-bottom: 30px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .category-selector h3 { margin-bottom: 15px; }
         
-        /* INTERFACE A - Spinning Wheel */
-        .wheel-container {
-            max-width: 900px;
-            margin: 0 auto;
-        }
+        .category-toggle { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
         
-        .spinner-wrapper {
-            text-align: center;
-            padding: 40px;
-        }
-
-        .category-selector {
-            background: white;
-            padding: 20px;
-            border-radius: 5px;
-            margin-bottom: 30px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-
-        .category-selector h3 {
-            margin-bottom: 15px;
-        }
-
-        .category-toggle {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
         .category-toggle-btn {
-            padding: 10px 20px;
-            border: 2px solid #ddd;
-            background: white;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 14px;
-            transition: all 0.3s;
+            padding: 10px 20px; border: 2px solid #ddd; background: white; border-radius: 20px;
+            cursor: pointer; font-weight: bold; font-size: 14px; transition: all 0.3s;
         }
-
-        .category-toggle-btn:hover {
-            border-color: #4CAF50;
-        }
-
-        .category-toggle-btn.active {
-            background: #4CAF50;
-            color: white;
-            border-color: #4CAF50;
-        }
+        .category-toggle-btn:hover { border-color: #4CAF50; }
+        .category-toggle-btn.active { background: #4CAF50; color: white; border-color: #4CAF50; }
         
         .spinner {
-            width: 250px;
-            height: 250px;
-            border-radius: 50%;
-            margin: 0 auto 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 60px;
-            font-weight: bold;
-            color: white;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            width: 250px; height: 250px; border-radius: 50%; margin: 0 auto 30px;
+            display: flex; align-items: center; justify-content: center; font-size: 60px;
+            font-weight: bold; color: white; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
         
-        .spinner.spinning {
-            animation: spin 2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
+        .spinner.spinning { animation: spin 2s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
         
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(1800deg); }
-        }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(1800deg); } }
         
         .spin-button {
-            background: #4CAF50;
-            color: white;
-            padding: 15px 40px;
-            font-size: 16px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin: 10px;
-            font-weight: 600;
+            background: #4CAF50; color: white; padding: 15px 40px; font-size: 16px;
+            border: none; border-radius: 5px; cursor: pointer; margin: 10px; font-weight: 600;
         }
-        
-        .spin-button:hover {
-            background: #45a049;
-        }
-        
-        .spin-button.btn-secondary {
-            background: #2196F3;
-        }
-        
-        .spin-button.btn-secondary:hover {
-            background: #0b7dda;
-        }
+        .spin-button:hover { background: #45a049; }
+        .spin-button.btn-secondary { background: #2196F3; }
+        .spin-button.btn-secondary:hover { background: #0b7dda; }
         
         .result-box {
-            background: #fff;
-            padding: 30px;
-            margin-top: 30px;
-            border-radius: 5px;
-            text-align: center;
-            min-height: 150px;
-            font-size: 24px;
-            font-weight: bold;
+            background: #fff; padding: 30px; margin-top: 30px; border-radius: 5px;
+            text-align: center; min-height: 150px; font-size: 24px; font-weight: bold;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
         
-        .result-details {
-            text-align: left;
-            margin-top: 20px;
-            font-size: 14px;
-            font-weight: normal;
-            line-height: 1.8;
-        }
+        .result-details { text-align: left; margin-top: 20px; font-size: 14px; line-height: 1.8; }
+        .result-details div { margin: 8px 0; padding: 8px; background: #f9f9f9; border-left: 3px solid #4CAF50; }
         
-        .result-details div {
-            margin: 8px 0;
-            padding: 8px;
-            background: #f9f9f9;
-            border-left: 3px solid #4CAF50;
-        }
-        
-        .result-buttons {
-            margin-top: 20px;
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        
+        .result-buttons { margin-top: 20px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
         .result-buttons a, .result-buttons button {
-            padding: 10px 15px;
-            font-size: 14px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-decoration: none;
-            color: white;
-            font-weight: 600;
+            padding: 10px 15px; font-size: 14px; border: none; border-radius: 5px;
+            cursor: pointer; text-decoration: none; color: white; font-weight: 600;
         }
         
-        .call-btn {
-            background: #2196F3;
-        }
+        .call-btn { background: #2196F3; }
+        .call-btn:hover { background: #0b7dda; }
+        .map-btn { background: #FF9800; }
+        .map-btn:hover { background: #e68900; }
         
-        .call-btn:hover {
-            background: #0b7dda;
-        }
+        .history-small { background: #fff; padding: 20px; margin-top: 20px; border-radius: 5px; }
+        .available-options { background: #fff; padding: 20px; margin-top: 20px; border-radius: 5px; }
         
-        .map-btn {
-            background: #FF9800;
-        }
+        .options-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; margin-top: 15px; }
+        .option-card { background: #f9f9f9; padding: 12px; border-radius: 5px; border-left: 3px solid #4CAF50; }
+        .option-card strong { display: block; margin-bottom: 5px; }
+        .option-card small { color: #666; font-size: 12px; }
         
-        .map-btn:hover {
-            background: #e68900;
-        }
+        .dashboard-container { max-width: 1400px; margin: 0 auto; }
         
-        .history-small {
-            background: #fff;
-            padding: 20px;
-            margin-top: 20px;
-            border-radius: 5px;
-        }
-
-        .available-options {
-            background: #fff;
-            padding: 20px;
-            margin-top: 20px;
-            border-radius: 5px;
-        }
-
-        .options-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 10px;
-            margin-top: 15px;
-        }
-
-        .option-card {
-            background: #f9f9f9;
-            padding: 12px;
-            border-radius: 5px;
-            border-left: 3px solid #4CAF50;
-        }
-
-        .option-card strong {
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        .option-card small {
-            color: #666;
-            font-size: 12px;
-        }
+        .controls { background: white; padding: 20px; border-radius: 5px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .controls h3 { margin-bottom: 15px; }
         
-        /* INTERFACE B - Management Dashboard */
-        .dashboard-container {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        
-        .controls {
-            background: white;
-            padding: 20px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-
-        .controls h3 {
-            margin-bottom: 15px;
-        }
-        
-        .control-group {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
-            flex-wrap: wrap;
-        }
+        .control-group { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; }
         
         input, select, textarea {
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 14px;
+            padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-size: 14px;
         }
-        
-        input, textarea {
-            flex: 1;
-            min-width: 150px;
-        }
+        input, textarea { flex: 1; min-width: 150px; }
         
         button {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
+            padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;
+            font-size: 14px; font-weight: 600;
         }
         
-        .btn-primary {
-            background: #4CAF50;
-            color: white;
-        }
+        .btn-primary { background: #4CAF50; color: white; }
+        .btn-primary:hover { background: #45a049; }
+        .btn-secondary { background: #2196F3; color: white; }
+        .btn-secondary:hover { background: #0b7dda; }
+        .btn-danger { background: #f44336; color: white; }
+        .btn-danger:hover { background: #da190b; }
+        .btn-small { padding: 5px 10px; font-size: 12px; }
         
-        .btn-primary:hover {
-            background: #45a049;
-        }
-        
-        .btn-secondary {
-            background: #2196F3;
-            color: white;
-        }
-        
-        .btn-secondary:hover {
-            background: #0b7dda;
-        }
-        
-        .btn-danger {
-            background: #f44336;
-            color: white;
-        }
-        
-        .btn-danger:hover {
-            background: #da190b;
-        }
-        
-        .btn-small {
-            padding: 5px 10px;
-            font-size: 12px;
-        }
-        
-        .table-wrapper {
-            overflow-x: auto;
-        }
+        .table-wrapper { overflow-x: auto; }
         
         table {
-            width: 100%;
-            border-collapse: collapse;
-            background: white;
-            border-radius: 5px;
-            overflow: hidden;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            width: 100%; border-collapse: collapse; background: white; border-radius: 5px;
+            overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
         
-        th, td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-            font-size: 13px;
-        }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; font-size: 13px; }
+        th { background: #333; color: white; font-weight: bold; }
+        tr:hover { background: #f5f5f5; }
         
-        th {
-            background: #333;
-            color: white;
-            font-weight: bold;
-        }
-        
-        tr:hover {
-            background: #f5f5f5;
-        }
-        
-        .locked {
-            background: #ffcccc;
-        }
-        
-        .status-badge {
-            display: inline-block;
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: bold;
-        }
-        
-        .status-available {
-            background: #d4edda;
-            color: #155724;
-        }
-        
-        .status-locked {
-            background: #f8d7da;
-            color: #721c24;
-        }
-        
-        .sync-status {
-            padding: 10px;
-            margin-top: 10px;
-            border-radius: 5px;
-            text-align: center;
-            display: none;
-        }
-        
-        .sync-status.success {
-            background: #d4edda;
-            color: #155724;
-            display: block;
-        }
-        
-        .sync-status.error {
-            background: #f8d7da;
-            color: #721c24;
-            display: block;
-        }
-        
-        .contact-info {
-            font-size: 12px;
-            color: #666;
-            line-height: 1.4;
-        }
+        .status-badge { display: inline-block; padding: 5px 10px; border-radius: 20px; font-size: 11px; font-weight: bold; }
+        .status-available { background: #d4edda; color: #155724; }
+        .status-locked { background: #f8d7da; color: #721c24; }
         
         .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.4);
-            overflow: auto;
+            display: none; position: fixed; z-index: 1000; left: 0; top: 0;
+            width: 100%; height: 100%; background-color: rgba(0,0,0,0.4); overflow: auto;
         }
-        
-        .modal.active {
-            display: block;
-        }
+        .modal.active { display: block; }
         
         .modal-content {
-            background-color: #fefefe;
-            margin: 10% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 90%;
-            max-width: 600px;
-            border-radius: 5px;
+            background-color: #fefefe; margin: 10% auto; padding: 20px;
+            border: 1px solid #888; width: 90%; max-width: 600px; border-radius: 5px;
         }
         
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .modal-header h2 {
-            margin: 0;
-        }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .modal-header h2 { margin: 0; }
+        .close-btn { font-size: 28px; font-weight: bold; cursor: pointer; color: #aaa; }
+        .close-btn:hover { color: #000; }
         
-        .close-btn {
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
-            color: #aaa;
-        }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-weight: bold; margin-bottom: 5px; }
+        .form-group input, .form-group textarea, .form-group select { width: 100%; }
         
-        .close-btn:hover {
-            color: #000;
-        }
+        .filter-buttons { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+        .filter-btn { padding: 8px 16px; border: 2px solid #ddd; background: white; border-radius: 20px; cursor: pointer; font-weight: bold; }
+        .filter-btn:hover { border-color: #4CAF50; }
+        .filter-btn.active { background: #4CAF50; color: white; border-color: #4CAF50; }
         
-        .form-group {
-            margin-bottom: 15px;
-        }
-        
-        .form-group label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        
-        .form-group input, .form-group textarea, .form-group select {
-            width: 100%;
-        }
-
-        .filter-buttons {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-
-        .filter-btn {
-            padding: 8px 16px;
-            border: 2px solid #ddd;
-            background: white;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        .filter-btn:hover {
-            border-color: #4CAF50;
-        }
-
-        .filter-btn.active {
-            background: #4CAF50;
-            color: white;
-            border-color: #4CAF50;
-        }
-
-        .scraper-section {
-            background: #f0f0f0;
-            padding: 20px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-        }
-
-        .scraper-section h3 {
-            margin-top: 0;
-        }
-
-        .scraper-input-group {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
-            flex-wrap: wrap;
-        }
-
-        .scraper-input-group input {
-            flex: 1;
-            min-width: 250px;
-        }
-
-        .scraper-help {
-            background: #fff3cd;
-            padding: 10px;
-            border-left: 3px solid #ff9800;
-            margin-top: 10px;
-            border-radius: 3px;
-            font-size: 12px;
-        }
-
-        .scraper-history {
-            margin-top: 15px;
-        }
-
-        .scraper-link-item {
-            background: white;
-            padding: 10px;
-            border-radius: 5px;
-            margin-bottom: 8px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .scraper-link-item a {
-            color: #2196F3;
-            text-decoration: none;
-            flex: 1;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        .scraper-link-item a:hover {
-            text-decoration: underline;
-        }
-
-        .scraper-link-item button {
-            margin-left: 10px;
-        }
-
-        h3 {
-            margin-bottom: 15px;
-        }
-
-        h4 {
-            margin-top: 20px;
-            margin-bottom: 10px;
-        }
+        h3 { margin-bottom: 15px; }
     </style>
 </head>
 <body>
@@ -572,49 +160,41 @@
     </div>
     
     <div class="tab-buttons">
-        <button class="tab-btn active" onclick="switchTab('wheel', this)">🎡 Spinning Wheel</button>
-        <button class="tab-btn" onclick="switchTab('manage', this)">⚙️ Manage Database</button>
+        <button class="tab-btn active" id="btn-wheel" onclick="showTab('wheel')">🎡 Spinning Wheel</button>
+        <button class="tab-btn" id="btn-manage" onclick="showTab('manage')">⚙️ Manage Database</button>
     </div>
     
-    <!-- INTERFACE A: SPINNING WHEEL -->
+    <!-- SPINNING WHEEL TAB -->
     <div id="wheel" class="tab-content active">
         <div class="wheel-container">
             <div class="category-selector">
-                <h3>Select Fellowship Type to Spin For:</h3>
+                <h3>Select Fellowship Type:</h3>
                 <div class="category-toggle">
-                    <button class="category-toggle-btn active" onclick="selectWheelCategory('all', this)">🍽️ All</button>
-                    <button class="category-toggle-btn" onclick="selectWheelCategory('Mains', this)">🍲 Mains</button>
-                    <button class="category-toggle-btn" onclick="selectWheelCategory('Drinks', this)">🥤 Drinks</button>
-                    <button class="category-toggle-btn" onclick="selectWheelCategory('Dessert', this)">🍰 Dessert</button>
+                    <button class="category-toggle-btn active" onclick="selectCategory('all')">🍽️ All</button>
+                    <button class="category-toggle-btn" onclick="selectCategory('Mains')">🍲 Mains</button>
+                    <button class="category-toggle-btn" onclick="selectCategory('Drinks')">🥤 Drinks</button>
+                    <button class="category-toggle-btn" onclick="selectCategory('Dessert')">🍰 Dessert</button>
                 </div>
             </div>
 
             <div class="available-options">
                 <h3>Available Options:</h3>
-                <div class="options-grid" id="availableOptions">
-                    <!-- Populated by JS -->
-                </div>
+                <div class="options-grid" id="availableOptions"></div>
             </div>
             
             <div class="spinner-wrapper">
                 <div class="spinner" id="spinner">🍽️</div>
-                <button class="spin-button" onclick="askSpinnerName()">🎡 SPIN WHEEL</button>
+                <button class="spin-button" onclick="askName()">🎡 SPIN WHEEL</button>
                 <button class="spin-button btn-secondary" onclick="resetWeek()">Reset Week</button>
             </div>
             
-            <div class="result-box" id="result">Click SPIN to pick this week's fellowship!</div>
+            <div class="result-box" id="result">Click SPIN to pick!</div>
             
             <div class="history-small">
                 <h3>This Week's Status:</h3>
                 <div class="table-wrapper">
                     <table>
-                        <thead>
-                            <tr>
-                                <th>Restaurant</th>
-                                <th>Last Chosen</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
+                        <thead><tr><th>Restaurant</th><th>Last Chosen</th><th>Status</th></tr></thead>
                         <tbody id="wheelHistory"></tbody>
                     </table>
                 </div>
@@ -622,16 +202,16 @@
         </div>
     </div>
     
-    <!-- INTERFACE B: MANAGEMENT DASHBOARD -->
+    <!-- DATABASE TAB -->
     <div id="manage" class="tab-content">
         <div class="dashboard-container">
             <div class="controls">
-                <h3>Add New Restaurant</h3>
+                <h3>Add Restaurant</h3>
                 <div class="control-group">
-                    <input type="text" id="restaurantName" placeholder="Restaurant name">
-                    <input type="text" id="foodOption" placeholder="Food option">
+                    <input type="text" id="name" placeholder="Name">
+                    <input type="text" id="food" placeholder="Food">
                     <select id="location">
-                        <option value="">Select Location</option>
+                        <option value="">Location</option>
                         <option value="Tower 1">Tower 1</option>
                         <option value="Tower 2">Tower 2</option>
                         <option value="Tower 3">Tower 3</option>
@@ -643,55 +223,26 @@
                 </div>
                 <div class="control-group">
                     <select id="category">
-                        <option value="">Select Category</option>
+                        <option value="">Category</option>
                         <option value="Mains">🍲 Mains</option>
                         <option value="Drinks">🥤 Drinks</option>
                         <option value="Dessert">🍰 Dessert</option>
                     </select>
                     <input type="text" id="address" placeholder="Address">
-                    <input type="text" id="phone" placeholder="Phone number">
-                    <button class="btn-primary" onclick="openAddModal()">➕ Add</button>
+                    <input type="text" id="phone" placeholder="Phone">
+                    <button class="btn-primary" onclick="openModal()">➕ Add</button>
                 </div>
             </div>
 
-            <!-- SCRAPER SECTION -->
-            <div class="scraper-section">
-                <h3>🔗 Web Scraper - Add Links</h3>
-                <p style="color: #666; margin-bottom: 15px;">Add links to Google Maps, OpenRice, or restaurant websites</p>
-                
-                <div class="scraper-input-group">
-                    <input type="text" id="scraperLink" placeholder="e.g., https://www.google.com/maps/search/restaurants+suntec" onkeypress="if(event.key==='Enter') addScraperLink()">
-                    <input type="text" id="scraperCategory" placeholder="Category" value="Mains">
-                    <button class="btn-secondary" onclick="addScraperLink()">➕ Add</button>
-                </div>
-
-                <div class="scraper-help">
-                    💡 <strong>Tips:</strong><br>
-                    • Google Maps: Search and copy the URL<br>
-                    • OpenRice: Copy restaurant page URLs<br>
-                    • Format: Full URL with http:// or https://
-                </div>
-
-                <h4>Saved Links</h4>
-                <div class="scraper-history" id="scraperHistory">
-                    <p style="color: #999; text-align: center;">No links added yet</p>
-                </div>
-
-                <div class="control-group" style="margin-top: 15px;">
-                    <button class="btn-secondary" onclick="scrapeAllLinks()">🔄 Scrape All</button>
-                </div>
-                <div class="sync-status" id="syncStatus"></div>
-            </div>
-
-            <h3>Filter by Category</h3>
+            <h3>Filter:</h3>
             <div class="filter-buttons">
-                <button class="filter-btn active" onclick="filterCategory('all', this)">All</button>
-                <button class="filter-btn" onclick="filterCategory('Mains', this)">🍲 Mains</button>
-                <button class="filter-btn" onclick="filterCategory('Drinks', this)">🥤 Drinks</button>
-                <button class="filter-btn" onclick="filterCategory('Dessert', this)">🍰 Dessert</button>
+                <button class="filter-btn active" onclick="filterCat('all')">All</button>
+                <button class="filter-btn" onclick="filterCat('Mains')">🍲 Mains</button>
+                <button class="filter-btn" onclick="filterCat('Drinks')">🥤 Drinks</button>
+                <button class="filter-btn" onclick="filterCat('Dessert')">🍰 Dessert</button>
             </div>
             
-            <h3>Restaurant Database</h3>
+            <h3>Database</h3>
             <div class="table-wrapper">
                 <table>
                     <thead>
@@ -700,10 +251,9 @@
                             <th>Category</th>
                             <th>Food</th>
                             <th>Location</th>
-                            <th>Address & Phone</th>
-                            <th>Last Chosen</th>
+                            <th>Address</th>
+                            <th>Phone</th>
                             <th>Times</th>
-                            <th>Status</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -713,34 +263,34 @@
         </div>
     </div>
     
-    <!-- MODAL FOR ADDING/EDITING -->
-    <div id="restaurantModal" class="modal">
+    <!-- ADD MODAL -->
+    <div id="modal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 id="modalTitle">Add Restaurant</h2>
-                <span class="close-btn" onclick="closeAddModal()">&times;</span>
+                <h2>Add Restaurant</h2>
+                <span class="close-btn" onclick="closeModal()">&times;</span>
             </div>
             <div class="form-group">
-                <label>Restaurant Name</label>
-                <input type="text" id="modalName" placeholder="e.g., Din Tai Fung">
+                <label>Name</label>
+                <input type="text" id="modalName">
             </div>
             <div class="form-group">
                 <label>Category</label>
                 <select id="modalCategory">
-                    <option value="">Select Category</option>
+                    <option value="">Select</option>
                     <option value="Mains">🍲 Mains</option>
                     <option value="Drinks">🥤 Drinks</option>
                     <option value="Dessert">🍰 Dessert</option>
                 </select>
             </div>
             <div class="form-group">
-                <label>Food Option</label>
-                <input type="text" id="modalFood" placeholder="e.g., Xiao Long Bao">
+                <label>Food</label>
+                <input type="text" id="modalFood">
             </div>
             <div class="form-group">
-                <label>Location @ Suntec</label>
+                <label>Location</label>
                 <select id="modalLocation">
-                    <option value="">Select Location</option>
+                    <option value="">Select</option>
                     <option value="Tower 1">Tower 1</option>
                     <option value="Tower 2">Tower 2</option>
                     <option value="Tower 3">Tower 3</option>
@@ -751,125 +301,99 @@
                 </select>
             </div>
             <div class="form-group">
-                <label>Full Address</label>
-                <textarea id="modalAddress" placeholder="e.g., 1 Raffles Link, Singapore 039393" rows="2"></textarea>
+                <label>Address</label>
+                <textarea id="modalAddress" rows="2"></textarea>
             </div>
             <div class="form-group">
-                <label>Phone Number</label>
-                <input type="text" id="modalPhone" placeholder="e.g., +65 6333 8800">
+                <label>Phone</label>
+                <input type="text" id="modalPhone">
             </div>
             <div class="control-group">
-                <button class="btn-primary" onclick="saveRestaurant()">💾 Save</button>
-                <button class="btn-secondary" onclick="closeAddModal()">Cancel</button>
+                <button class="btn-primary" onclick="save()">💾 Save</button>
+                <button class="btn-secondary" onclick="closeModal()">Cancel</button>
             </div>
         </div>
     </div>
 
-    <!-- MODAL FOR SPINNER NAME -->
-    <div id="spinnerModal" class="modal">
+    <!-- SPINNER NAME MODAL -->
+    <div id="nameModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>Who's Spinning the Wheel?</h2>
-                <span class="close-btn" onclick="closeSpinnerModal()">&times;</span>
+                <h2>Who's Spinning?</h2>
+                <span class="close-btn" onclick="closeName()">&times;</span>
             </div>
             <div class="form-group">
                 <label>Your Name</label>
-                <input type="text" id="spinnerName" placeholder="Enter your name" onkeypress="if(event.key==='Enter') proceedSpin()">
+                <input type="text" id="spinnerName" onkeypress="if(event.key==='Enter') spin()">
             </div>
             <div class="control-group">
-                <button class="btn-primary" onclick="proceedSpin()">Continue to Spin</button>
-                <button class="btn-secondary" onclick="closeSpinnerModal()">Cancel</button>
+                <button class="btn-primary" onclick="spin()">Spin</button>
+                <button class="btn-secondary" onclick="closeName()">Cancel</button>
             </div>
         </div>
     </div>
 
     <script>
-        // ========== DATA ==========
         let restaurants = JSON.parse(localStorage.getItem('restaurants')) || [
-            { id: 1, name: 'Din Tai Fung', food: 'Xiao Long Bao', category: 'Mains', location: 'Tower 1', address: '1 Raffles Link, Singapore 039393', phone: '+65 6333 8800', lastChosen: null, timesChosen: 0, locked: false },
-            { id: 2, name: 'Lao Ban Soya Chicken', food: 'Soya Chicken Rice', category: 'Mains', location: 'Food Court', address: '1 Temasek Avenue, B2-24 to B2-29, Singapore 039192', phone: '+65 6332 8686', lastChosen: null, timesChosen: 0, locked: false },
-            { id: 3, name: 'Ichiban Ramen', food: 'Tonkotsu Ramen', category: 'Mains', location: 'Tower 2', address: '1 Temasek Avenue, Singapore 039192', phone: '+65 6333 3688', lastChosen: null, timesChosen: 0, locked: false }
+            { id: 1, name: 'Din Tai Fung', food: 'Xiao Long Bao', category: 'Mains', location: 'Tower 1', address: '1 Raffles Link', phone: '+65 6333 8800', timesChosen: 0, locked: false },
+            { id: 2, name: 'Lao Ban Soya Chicken', food: 'Soya Chicken Rice', category: 'Mains', location: 'Food Court', address: '1 Temasek Avenue', phone: '+65 6332 8686', timesChosen: 0, locked: false },
+            { id: 3, name: 'Ichiban Ramen', food: 'Tonkotsu Ramen', category: 'Mains', location: 'Tower 2', address: '1 Temasek Avenue', phone: '+65 6333 3688', timesChosen: 0, locked: false }
         ];
 
-        let scraperLinks = JSON.parse(localStorage.getItem('scraperLinks')) || [];
-        let currentWeek = JSON.parse(localStorage.getItem('currentWeek')) || null;
-        let nextId = parseInt(localStorage.getItem('nextId')) || 4;
-        let editingId = null;
+        let nextId = 4;
         let currentFilter = 'all';
-        let selectedWheelCategory = 'all';
-        let lastSpinner = localStorage.getItem('lastSpinner') || '';
-        
-        // ========== TAB SWITCHING (FIXED!) ==========
-        function switchTab(tabName, button) {
-            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
-            document.getElementById(tabName).classList.add('active');
-            button.classList.add('active');
-            renderUI();
-        }
-        
-        // ========== SAVE DATA ==========
-        function saveData() {
+        let selectedCat = 'all';
+        let currentWeek = null;
+        let lastSpinner = '';
+
+        function save() {
             localStorage.setItem('restaurants', JSON.stringify(restaurants));
+            localStorage.setItem('nextId', nextId);
             localStorage.setItem('currentWeek', JSON.stringify(currentWeek));
-            localStorage.setItem('nextId', nextId.toString());
-            localStorage.setItem('scraperLinks', JSON.stringify(scraperLinks));
             localStorage.setItem('lastSpinner', lastSpinner);
         }
 
-        // ========== WHEEL FUNCTIONS ==========
-        function selectWheelCategory(category, button) {
-            selectedWheelCategory = category;
+        function showTab(tab) {
+            document.querySelectorAll('.tab-content').forEach(e => e.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(e => e.classList.remove('active'));
+            document.getElementById(tab).classList.add('active');
+            document.getElementById('btn-' + tab).classList.add('active');
+            render();
+        }
+
+        function selectCategory(cat) {
+            selectedCat = cat;
             document.querySelectorAll('.category-toggle-btn').forEach(b => b.classList.remove('active'));
-            button.classList.add('active');
-            renderAvailableOptions();
+            event.target.classList.add('active');
+            renderOptions();
         }
 
-        function renderAvailableOptions() {
-            const filtered = selectedWheelCategory === 'all' 
-                ? restaurants 
-                : restaurants.filter(r => r.category === selectedWheelCategory);
-            
-            const html = filtered.map(r => `
-                <div class="option-card">
-                    <strong>${r.name}</strong>
-                    <small>${r.food}</small>
-                </div>
-            `).join('');
-            
-            document.getElementById('availableOptions').innerHTML = html || '<p>No options</p>';
+        function renderOptions() {
+            const filtered = selectedCat === 'all' ? restaurants : restaurants.filter(r => r.category === selectedCat);
+            const html = filtered.map(r => `<div class="option-card"><strong>${r.name}</strong><small>${r.food}</small></div>`).join('');
+            document.getElementById('availableOptions').innerHTML = html;
         }
 
-        function askSpinnerName() {
-            document.getElementById('spinnerModal').classList.add('active');
-            setTimeout(() => document.getElementById('spinnerName').focus(), 100);
+        function askName() {
+            document.getElementById('nameModal').classList.add('active');
+            document.getElementById('spinnerName').focus();
         }
 
-        function closeSpinnerModal() {
-            document.getElementById('spinnerModal').classList.remove('active');
+        function closeName() {
+            document.getElementById('nameModal').classList.remove('active');
         }
 
-        function proceedSpin() {
+        function spin() {
             const name = document.getElementById('spinnerName').value.trim();
-            if (!name) {
-                alert('Please enter your name');
-                return;
-            }
+            if (!name) { alert('Enter name'); return; }
             lastSpinner = name;
-            saveData();
-            closeSpinnerModal();
+            closeName();
             spinWheel();
         }
 
         function spinWheel() {
-            const filtered = selectedWheelCategory === 'all' 
-                ? restaurants.filter(r => !r.locked)
-                : restaurants.filter(r => r.category === selectedWheelCategory && !r.locked);
-            
-            if (filtered.length === 0) {
-                alert('No restaurants available!');
-                return;
-            }
+            const filtered = selectedCat === 'all' ? restaurants.filter(r => !r.locked) : restaurants.filter(r => r.category === selectedCat && !r.locked);
+            if (filtered.length === 0) { alert('No restaurants available!'); return; }
             
             const spinner = document.getElementById('spinner');
             spinner.classList.remove('spinning');
@@ -878,19 +402,137 @@
             
             setTimeout(() => {
                 const selected = filtered[Math.floor(Math.random() * filtered.length)];
-                selected.lastChosen = new Date().toLocaleDateString();
-                selected.timesChosen++;
                 selected.locked = true;
+                selected.timesChosen++;
                 currentWeek = selected;
-                saveData();
-                displayResult(selected);
+                save();
+                showResult(selected);
                 spinner.classList.remove('spinning');
-                renderUI();
+                render();
             }, 2000);
         }
 
-        function displayResult(r) {
+        function showResult(r) {
             const html = `
-                <div style="margin-bottom: 20px;">
-                    <h2 style="color: #4CAF50; font-size: 28px;">${r.name}</h2>
+                <h2 style="color: #4CAF50;">${r.name}</h2>
+                <div class="result-details">
+                    <div><strong>Food:</strong> ${r.food}</div>
+                    <div><strong>Location:</strong> ${r.location}</div>
+                    <div><strong>Address:</strong> ${r.address}</div>
+                    <div><strong>Phone:</strong> ${r.phone}</div>
+                    <div><strong>Spun by:</strong> ${lastSpinner}</div>
                 </div>
+                <div class="result-buttons">
+                    <a href="https://maps.google.com/?q=${encodeURIComponent(r.address)}" target="_blank" class="map-btn">📍 Map</a>
+                    <a href="tel:${r.phone.replace(/\D/g, '')}" class="call-btn">📞 Call</a>
+                </div>
+            `;
+            document.getElementById('result').innerHTML = html;
+        }
+
+        function resetWeek() {
+            if (confirm('Reset?')) {
+                restaurants.forEach(r => r.locked = false);
+                currentWeek = null;
+                save();
+                document.getElementById('result').innerHTML = 'Click SPIN!';
+                render();
+            }
+        }
+
+        function openModal() {
+            document.getElementById('modal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('modal').classList.remove('active');
+        }
+
+        function saveRest() {
+            const name = document.getElementById('modalName').value.trim();
+            const cat = document.getElementById('modalCategory').value;
+            const food = document.getElementById('modalFood').value.trim();
+            const loc = document.getElementById('modalLocation').value;
+            const addr = document.getElementById('modalAddress').value.trim();
+            const ph = document.getElementById('modalPhone').value.trim();
+            
+            if (!name || !cat || !food || !loc || !addr || !ph) {
+                alert('Fill all fields!');
+                return;
+            }
+            
+            restaurants.push({
+                id: nextId++,
+                name, food, category: cat, location: loc, address: addr, phone: ph,
+                timesChosen: 0, locked: false
+            });
+            
+            save();
+            closeModal();
+            document.getElementById('modalName').value = '';
+            document.getElementById('modalCategory').value = '';
+            document.getElementById('modalFood').value = '';
+            document.getElementById('modalLocation').value = '';
+            document.getElementById('modalAddress').value = '';
+            document.getElementById('modalPhone').value = '';
+            render();
+            alert('Saved!');
+        }
+
+        function deleteRest(id) {
+            if (confirm('Delete?')) {
+                restaurants = restaurants.filter(r => r.id !== id);
+                save();
+                render();
+            }
+        }
+
+        function filterCat(cat) {
+            currentFilter = cat;
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+            renderTable();
+        }
+
+        function renderTable() {
+            const filtered = currentFilter === 'all' ? restaurants : restaurants.filter(r => r.category === currentFilter);
+            const html = filtered.map(r => `
+                <tr>
+                    <td>${r.name}</td>
+                    <td>${r.category}</td>
+                    <td>${r.food}</td>
+                    <td>${r.location}</td>
+                    <td>${r.address}</td>
+                    <td>${r.phone}</td>
+                    <td>${r.timesChosen}</td>
+                    <td><button class="btn-danger btn-small" onclick="deleteRest(${r.id})">Delete</button></td>
+                </tr>
+            `).join('');
+            document.getElementById('databaseTable').innerHTML = html;
+        }
+
+        function renderWheel() {
+            const html = restaurants.map(r => `
+                <tr>
+                    <td>${r.name}</td>
+                    <td>${r.locked ? 'This Week' : 'Never'}</td>
+                    <td><span class="status-badge ${r.locked ? 'status-locked' : 'status-available'}">${r.locked ? 'Locked' : 'Available'}</span></td>
+                </tr>
+            `).join('');
+            document.getElementById('wheelHistory').innerHTML = html;
+        }
+
+        function render() {
+            renderOptions();
+            renderTable();
+            renderWheel();
+        }
+
+        // Initial render
+        render();
+
+        // Fix function naming
+        window.save = saveRest;
+    </script>
+</body>
+</html>
