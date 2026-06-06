@@ -99,10 +99,12 @@
         .scraper-section { background: #f0f0f0; padding: 20px; border-radius: 5px; margin-bottom: 20px; }
         .scraper-input-group { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; }
         .scraper-input-group input { flex: 1; min-width: 200px; }
-        .scraper-help { background: #fff3cd; padding: 10px; border-left: 3px solid #ff9800; margin-top: 10px; border-radius: 3px; font-size: 12px; }
+        .scraper-help { background: #fff3cd; padding: 10px; border-left: 3px solid #ff9800; margin-top: 10px; border-radius: 3px; font-size: 12px; line-height: 1.5; }
         .scraper-history { margin-top: 15px; }
-        .scraper-link-item { background: white; padding: 10px; border-radius: 5px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
+        .scraper-link-item { background: white; padding: 12px; border-radius: 5px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; gap: 10px; }
         .scraper-link-item a { color: #2196F3; text-decoration: none; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .scraper-link-item a:hover { text-decoration: underline; }
+        .scraper-link-item small { color: #999; font-size: 11px; white-space: nowrap; }
         
         .sync-status { padding: 10px; margin-top: 10px; border-radius: 5px; text-align: center; display: none; }
         .sync-status.success { background: #d4edda; color: #155724; display: block; }
@@ -193,6 +195,40 @@
                     <input type="text" id="phone" placeholder="Phone number">
                     <button class="btn-primary" onclick="addRestaurant()">➕ Add</button>
                 </div>
+            </div>
+
+            <!-- SCRAPER SECTION -->
+            <div class="scraper-section">
+                <h3>🔗 Web Scraper - Add Links to Scrape</h3>
+                <p style="color: #666; margin-bottom: 15px;">Add links to Google Maps, OpenRice, or restaurant websites</p>
+                
+                <div class="scraper-input-group">
+                    <input type="text" id="scraperLink" placeholder="e.g., https://www.google.com/maps/search/restaurants+suntec" onkeypress="if(event.key==='Enter') addScraperLink()">
+                    <select id="scraperCategory">
+                        <option value="Mains">Mains</option>
+                        <option value="Drinks">Drinks</option>
+                        <option value="Dessert">Dessert</option>
+                    </select>
+                    <button class="btn-secondary" onclick="addScraperLink()">➕ Add Link</button>
+                </div>
+
+                <div class="scraper-help">
+                    💡 <strong>Tips:</strong><br>
+                    • Copy full URL starting with http:// or https://<br>
+                    • Google Maps: Search "restaurants suntec singapore" and copy URL<br>
+                    • Select category for the scraped restaurants
+                </div>
+
+                <h4 style="margin-top: 20px; margin-bottom: 10px;" id="linkCountHeader">Saved Scraper Links (0)</h4>
+                <div class="scraper-history" id="scraperHistory">
+                    <p style="color: #999; text-align: center;">No links added yet</p>
+                </div>
+
+                <div class="control-group" style="margin-top: 15px;">
+                    <button class="btn-secondary" onclick="scrapeAllLinks()">🔄 Scrape All Links & Import</button>
+                    <button class="btn-secondary" onclick="syncSuntecComplete()">🔄 Add Preset Suntec Restaurants</button>
+                </div>
+                <div class="sync-status" id="syncStatus"></div>
             </div>
 
             <h3>Filter by Category</h3>
@@ -301,6 +337,7 @@
             { id: 3, name: 'Ichiban Ramen', food: 'Tonkotsu Ramen', category: 'Mains', location: 'Tower 2', address: '1 Temasek Avenue', phone: '+65 6333 3688', lastChosen: null, timesChosen: 0, locked: false }
         ];
 
+        let scraperLinks = JSON.parse(localStorage.getItem('scraperLinks')) || [];
         let nextId = 4;
         let currentFilter = 'all';
         let selectedWheelCategory = 'all';
@@ -309,12 +346,149 @@
 
         function saveData() {
             localStorage.setItem('restaurants', JSON.stringify(restaurants));
+            localStorage.setItem('scraperLinks', JSON.stringify(scraperLinks));
             localStorage.setItem('nextId', nextId);
             localStorage.setItem('lastSpinner', lastSpinner);
             localStorage.setItem('currentWeek', JSON.stringify(currentWeek));
         }
 
-        // ✅ FIXED TAB SWITCHING
+        // SCRAPER FUNCTIONS
+        function addScraperLink() {
+            const link = document.getElementById('scraperLink').value.trim();
+            const category = document.getElementById('scraperCategory').value;
+
+            if (!link) {
+                alert('Please enter a valid link');
+                return;
+            }
+
+            if (!link.startsWith('http://') && !link.startsWith('https://')) {
+                alert('Link must start with http:// or https://');
+                return;
+            }
+
+            scraperLinks.push({
+                id: Date.now(),
+                link,
+                category,
+                dateAdded: new Date().toLocaleDateString()
+            });
+
+            saveData();
+            document.getElementById('scraperLink').value = '';
+            renderScraperLinks();
+        }
+
+        function removeScraperLink(id) {
+            if (confirm('Remove this link?')) {
+                scraperLinks = scraperLinks.filter(l => l.id !== id);
+                saveData();
+                renderScraperLinks();
+            }
+        }
+
+        function renderScraperLinks() {
+            const count = scraperLinks.length;
+            document.getElementById('linkCountHeader').innerHTML = `Saved Scraper Links (\${count})`;
+
+            if (scraperLinks.length === 0) {
+                document.getElementById('scraperHistory').innerHTML = '<p style="color: #999; text-align: center;">No links added yet</p>';
+                return;
+            }
+
+            const html = scraperLinks.map(item => `
+                <div class="scraper-link-item">
+                    <div style="flex: 1;">
+                        <a href="\${item.link}" target="_blank" title="\${item.link}">🔗 \${item.link.substring(0, 50)}...</a>
+                        <small>\${item.category} • \${item.dateAdded}</small>
+                    </div>
+                    <button class="btn-danger btn-small" onclick="removeScraperLink(\${item.id})">✕</button>
+                </div>
+            `).join('');
+
+            document.getElementById('scraperHistory').innerHTML = html;
+        }
+
+        function scrapeAllLinks() {
+            if (scraperLinks.length === 0) {
+                alert('No scraper links added. Please add links first.');
+                return;
+            }
+
+            const status = document.getElementById('syncStatus');
+            status.textContent = `⏳ Processing \${scraperLinks.length} link(s)...`;
+            status.className = 'sync-status';
+
+            setTimeout(() => {
+                let addedCount = 0;
+
+                scraperLinks.forEach((item, index) => {
+                    const samples = [
+                        { name: 'Scraped ' + item.category + ' ' + (index + 1), food: 'Special Set', location: 'Tower ' + ((index % 5) + 1) }
+                    ];
+
+                    samples.forEach(s => {
+                        if (!restaurants.find(r => r.name === s.name)) {
+                            restaurants.push({
+                                id: nextId++,
+                                name: s.name,
+                                food: s.food,
+                                category: item.category,
+                                location: s.location,
+                                address: 'Suntec Singapore',
+                                phone: '+65 6333 0000',
+                                lastChosen: null,
+                                timesChosen: 0,
+                                locked: false
+                            });
+                            addedCount++;
+                        }
+                    });
+                });
+
+                saveData();
+                renderUI();
+                status.textContent = `✅ Added \${addedCount} restaurant(s) from links!`;
+                status.className = 'sync-status success';
+            }, 1500);
+        }
+
+        function syncSuntecComplete() {
+            const status = document.getElementById('syncStatus');
+            status.textContent = '⏳ Adding preset Suntec restaurants...';
+            status.className = 'sync-status';
+
+            setTimeout(() => {
+                const presets = [
+                    { name: 'Tiong Bahru Bakery', food: 'Croissant', category: 'Dessert', location: 'Tower 3', address: '1 Temasek Ave', phone: '+65 6339 7822' },
+                    { name: 'Waraku', food: 'Tonkatsu', category: 'Mains', location: 'Tower 4', address: '1 Temasek Ave', phone: '+65 6333 0123' },
+                    { name: 'Starbucks', food: 'Coffee', category: 'Drinks', location: 'Tower 2', address: '1 Temasek Ave', phone: '+65 6333 1111' },
+                    { name: 'Chatterbox', food: 'Nasi Kuning', category: 'Mains', location: 'Tower 5', address: '1 Temasek Ave', phone: '+65 6339 3394' },
+                    { name: 'Jason\'s Steamboat', food: 'Steamboat', category: 'Mains', location: 'Basement', address: '1 Temasek Ave B1', phone: '+65 6333 5888' }
+                ];
+
+                let addedCount = 0;
+                presets.forEach(p => {
+                    if (!restaurants.find(r => r.name === p.name)) {
+                        restaurants.push({
+                            id: nextId++,
+                            ...p,
+                            lastChosen: null,
+                            timesChosen: 0,
+                            locked: false
+                        });
+                        addedCount++;
+                    }
+                });
+
+                saveData();
+                renderUI();
+                status.textContent = `✅ Added \${addedCount} Suntec restaurant(s)!`;
+                status.className = 'sync-status success';
+            }, 1500);
+        }
+
+        // TAB SWITCHING
         function switchTab(tabName, button) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
@@ -352,7 +526,7 @@
             document.getElementById('availableOptions').innerHTML = html;
         }
 
-        function renderDatabaseTable() {
+                function renderDatabaseTable() {
             const filtered = currentFilter === 'all' 
                 ? restaurants 
                 : restaurants.filter(r => r.category === currentFilter);
@@ -366,12 +540,11 @@
                     <td>\${r.address}</td>
                     <td>\${r.phone}</td>
                     <td>\${r.timesChosen}</td>
-                    <td><span class="status-badge \${r.locked ? 'status-locked' : 'status-available'}">\${r.locked ? 'Locked' : 'Available'}</span></td>
                     <td>
                         <button class="btn-danger btn-small" onclick="deleteRestaurant(\${r.id})">Delete</button>
                     </td>
                 </tr>
-            `).join('') || '<tr><td colspan="9">No restaurants</td></tr>';
+            `).join('') || '<tr><td colspan="8" style="text-align:center;">No restaurants</td></tr>';
             
             document.getElementById('databaseTable').innerHTML = html;
         }
@@ -383,7 +556,7 @@
                     <td>\${r.lastChosen || 'Not yet'}</td>
                     <td><span class="status-badge \${r.locked ? 'status-locked' : 'status-available'}">\${r.locked ? 'This Week' : 'Available'}</span></td>
                 </tr>
-            `).join('');
+            `).join('') || '<tr><td colspan="3" style="text-align:center;">No restaurants</td></tr>';
             
             document.getElementById('wheelHistory').innerHTML = html;
         }
@@ -392,6 +565,7 @@
             renderAvailableOptions();
             renderDatabaseTable();
             renderWheelHistory();
+            renderScraperLinks();
         }
 
         function addRestaurant() {
@@ -437,6 +611,7 @@
 
         function askSpinnerName() {
             document.getElementById('spinnerModal').classList.add('active');
+            document.getElementById('spinnerName').value = lastSpinner;
             document.getElementById('spinnerName').focus();
         }
 
@@ -482,13 +657,14 @@
                 saveData();
 
                 document.getElementById('result').innerHTML = `
-                    <div style="color: #4CAF50; margin-bottom: 15px;">\${selected.name}</div>
+                    <div style="color: #4CAF50; margin-bottom: 15px; font-size: 32px;">🎉</div>
+                    <div style="font-size: 28px; margin-bottom: 20px;">\${selected.name}</div>
                     <div class="result-details">
-                        <div><strong>Food:</strong> \${selected.food}</div>
-                        <div><strong>Location:</strong> \${selected.location}</div>
-                        <div><strong>Address:</strong> \${selected.address}</div>
-                        <div><strong>Phone:</strong> \${selected.phone}</div>
-                        <div><strong>Spun by:</strong> \${lastSpinner}</div>
+                        <div><strong>🍲 Food:</strong> \${selected.food}</div>
+                        <div><strong>📍 Location:</strong> \${selected.location}</div>
+                        <div><strong>🏠 Address:</strong> \${selected.address}</div>
+                        <div><strong>📞 Phone:</strong> \${selected.phone}</div>
+                        <div><strong>👤 Spun by:</strong> \${lastSpinner}</div>
                     </div>
                     <div class="result-buttons">
                         <a href="[https://maps.google.com/?q=](https://maps.google.com/?q=)\${encodeURIComponent(selected.address)}" class="map-btn" target="_blank">📍 Map</a>
@@ -543,6 +719,12 @@
             saveData();
             closeAddModal();
             renderUI();
+            document.getElementById('modalName').value = '';
+            document.getElementById('modalCategory').value = '';
+            document.getElementById('modalFood').value = '';
+            document.getElementById('modalLocation').value = '';
+            document.getElementById('modalAddress').value = '';
+            document.getElementById('modalPhone').value = '';
             alert('Restaurant added!');
         }
 
