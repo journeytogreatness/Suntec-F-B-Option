@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,14 +9,8 @@
         body { font-family: Arial, sans-serif; background: #f5f5f5; }
         
         .header { background: #333; color: white; padding: 20px; text-align: center; }
-        
         .tab-buttons { display: flex; background: #444; padding: 0; }
-        
-        .tab-btn {
-            flex: 1; padding: 15px; border: none; background: #555; color: white;
-            cursor: pointer; font-size: 16px; font-weight: 600;
-        }
-        
+        .tab-btn { flex: 1; padding: 15px; border: none; background: #555; color: white; cursor: pointer; font-size: 16px; font-weight: 600; }
         .tab-btn:hover { background: #666; }
         .tab-btn.active { background: #4CAF50; }
         
@@ -27,52 +20,32 @@
         .wheel-container { max-width: 900px; margin: 0 auto; }
         .spinner-wrapper { text-align: center; padding: 40px; }
         
+        .week-info { background: #e3f2fd; padding: 15px; border-radius: 5px; margin-bottom: 20px; text-align: center; }
+        
         .category-selector { background: white; padding: 20px; border-radius: 5px; margin-bottom: 30px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         .category-selector h3 { margin-bottom: 15px; }
-        
         .category-toggle { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
         
-        .category-toggle-btn {
-            padding: 10px 20px; border: 2px solid #ddd; background: white; border-radius: 20px;
-            cursor: pointer; font-weight: bold; font-size: 14px; transition: all 0.3s;
-        }
+        .category-toggle-btn { padding: 10px 20px; border: 2px solid #ddd; background: white; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 14px; transition: all 0.3s; }
         .category-toggle-btn:hover { border-color: #4CAF50; }
         .category-toggle-btn.active { background: #4CAF50; color: white; border-color: #4CAF50; }
         
-        .spinner {
-            width: 250px; height: 250px; border-radius: 50%; margin: 0 auto 30px;
-            display: flex; align-items: center; justify-content: center; font-size: 60px;
-            font-weight: bold; color: white; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-        
+        .spinner { width: 250px; height: 250px; border-radius: 50%; margin: 0 auto 30px; display: flex; align-items: center; justify-content: center; font-size: 60px; font-weight: bold; color: white; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
         .spinner.spinning { animation: spin 2s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
         
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(1800deg); } }
         
-        .spin-button {
-            background: #4CAF50; color: white; padding: 15px 40px; font-size: 16px;
-            border: none; border-radius: 5px; cursor: pointer; margin: 10px; font-weight: 600;
-        }
+        .spin-button { background: #4CAF50; color: white; padding: 15px 40px; font-size: 16px; border: none; border-radius: 5px; cursor: pointer; margin: 10px; font-weight: 600; }
         .spin-button:hover { background: #45a049; }
         .spin-button.btn-secondary { background: #2196F3; }
         .spin-button.btn-secondary:hover { background: #0b7dda; }
         
-        .result-box {
-            background: #fff; padding: 30px; margin-top: 30px; border-radius: 5px;
-            text-align: center; min-height: 150px; font-size: 24px; font-weight: bold;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        
+        .result-box { background: #fff; padding: 30px; margin-top: 30px; border-radius: 5px; text-align: center; min-height: 150px; font-size: 24px; font-weight: bold; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
         .result-details { text-align: left; margin-top: 20px; font-size: 14px; line-height: 1.8; }
         .result-details div { margin: 8px 0; padding: 8px; background: #f9f9f9; border-left: 3px solid #4CAF50; }
         
         .result-buttons { margin-top: 20px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
-        .result-buttons a, .result-buttons button {
-            padding: 10px 15px; font-size: 14px; border: none; border-radius: 5px;
-            cursor: pointer; text-decoration: none; color: white; font-weight: 600;
-        }
-        
+        .result-buttons a, .result-buttons button { padding: 10px 15px; font-size: 14px; border: none; border-radius: 5px; cursor: pointer; text-decoration: none; color: white; font-weight: 600; }
         .call-btn { background: #2196F3; }
         .call-btn:hover { background: #0b7dda; }
         .map-btn { background: #FF9800; }
@@ -82,27 +55,20 @@
         .available-options { background: #fff; padding: 20px; margin-top: 20px; border-radius: 5px; }
         
         .options-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; margin-top: 15px; }
-        .option-card { background: #f9f9f9; padding: 12px; border-radius: 5px; border-left: 3px solid #4CAF50; }
+        .option-card { background: #f9f9f9; padding: 12px; border-radius: 5px; border-left: 3px solid #4CAF50; opacity: 1; transition: opacity 0.3s; }
+        .option-card.locked { opacity: 0.6; background: #ffe0e0; }
         .option-card strong { display: block; margin-bottom: 5px; }
         .option-card small { color: #666; font-size: 12px; }
         
         .dashboard-container { max-width: 1400px; margin: 0 auto; }
-        
         .controls { background: white; padding: 20px; border-radius: 5px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         .controls h3 { margin-bottom: 15px; }
-        
         .control-group { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; }
         
-        input, select, textarea {
-            padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-size: 14px;
-        }
+        input, select, textarea { padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-size: 14px; }
         input, textarea { flex: 1; min-width: 150px; }
         
-        button {
-            padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;
-            font-size: 14px; font-weight: 600;
-        }
-        
+        button { padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 14px; font-weight: 600; }
         .btn-primary { background: #4CAF50; color: white; }
         .btn-primary:hover { background: #45a049; }
         .btn-secondary { background: #2196F3; color: white; }
@@ -112,12 +78,7 @@
         .btn-small { padding: 5px 10px; font-size: 12px; }
         
         .table-wrapper { overflow-x: auto; }
-        
-        table {
-            width: 100%; border-collapse: collapse; background: white; border-radius: 5px;
-            overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        
+        table { width: 100%; border-collapse: collapse; background: white; border-radius: 5px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; font-size: 13px; }
         th { background: #333; color: white; font-weight: bold; }
         tr:hover { background: #f5f5f5; }
@@ -126,17 +87,9 @@
         .status-available { background: #d4edda; color: #155724; }
         .status-locked { background: #f8d7da; color: #721c24; }
         
-        .modal {
-            display: none; position: fixed; z-index: 1000; left: 0; top: 0;
-            width: 100%; height: 100%; background-color: rgba(0,0,0,0.4); overflow: auto;
-        }
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.4); overflow: auto; }
         .modal.active { display: block; }
-        
-        .modal-content {
-            background-color: #fefefe; margin: 10% auto; padding: 20px;
-            border: 1px solid #888; width: 90%; max-width: 600px; border-radius: 5px;
-        }
-        
+        .modal-content { background-color: #fefefe; margin: 10% auto; padding: 20px; border: 1px solid #888; width: 90%; max-width: 600px; border-radius: 5px; }
         .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         .modal-header h2 { margin: 0; }
         .close-btn { font-size: 28px; font-weight: bold; cursor: pointer; color: #aaa; }
@@ -151,7 +104,20 @@
         .filter-btn:hover { border-color: #4CAF50; }
         .filter-btn.active { background: #4CAF50; color: white; border-color: #4CAF50; }
         
+        .scraper-section { background: #f0f0f0; padding: 20px; border-radius: 5px; margin-bottom: 20px; }
+        .scraper-input-group { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; }
+        .scraper-input-group input { flex: 1; min-width: 200px; }
+        .scraper-history { margin-top: 15px; }
+        .scraper-link-item { background: white; padding: 10px; border-radius: 5px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
+        .scraper-link-item a { color: #2196F3; text-decoration: none; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .scraper-link-item a:hover { text-decoration: underline; }
+        
         h3 { margin-bottom: 15px; }
+        h4 { margin-top: 20px; margin-bottom: 10px; }
+        
+        .history-log { background: #fff; padding: 15px; border-radius: 5px; margin-top: 20px; font-size: 12px; max-height: 400px; overflow-y: auto; }
+        .history-log h4 { margin-top: 0; }
+        .history-item { padding: 10px; background: #f9f9f9; margin: 5px 0; border-left: 3px solid #2196F3; border-radius: 3px; }
     </style>
 </head>
 <body>
@@ -167,6 +133,11 @@
     <!-- SPINNING WHEEL TAB -->
     <div id="wheel" class="tab-content active">
         <div class="wheel-container">
+            <div class="week-info">
+                <h4>📅 Week of <span id="weekDisplay"></span></h4>
+                <p id="weekStatus"></p>
+            </div>
+
             <div class="category-selector">
                 <h3>Select Fellowship Type:</h3>
                 <div class="category-toggle">
@@ -185,19 +156,25 @@
             <div class="spinner-wrapper">
                 <div class="spinner" id="spinner">🍽️</div>
                 <button class="spin-button" onclick="askName()">🎡 SPIN WHEEL</button>
-                <button class="spin-button btn-secondary" onclick="resetWeek()">Reset Week</button>
+                <button class="spin-button btn-secondary" onclick="resetWeek()">🔄 Next Week</button>
             </div>
             
             <div class="result-box" id="result">Click SPIN to pick!</div>
             
             <div class="history-small">
-                <h3>This Week's Status:</h3>
+                <h3>📊 This Week's Spins:</h3>
+                <p style="color: #666; font-size: 13px; margin-bottom: 10px;"><strong>Total spins this week: <span id="spinCount">0</span></strong></p>
                 <div class="table-wrapper">
                     <table>
-                        <thead><tr><th>Restaurant</th><th>Last Chosen</th><th>Status</th></tr></thead>
+                        <thead><tr><th>#</th><th>Restaurant</th><th>Spun By</th><th>Time</th></tr></thead>
                         <tbody id="wheelHistory"></tbody>
                     </table>
                 </div>
+            </div>
+
+            <div class="history-log">
+                <h4>📜 All-Time Spin History:</h4>
+                <div id="allTimeHistory"></div>
             </div>
         </div>
     </div>
@@ -234,6 +211,27 @@
                 </div>
             </div>
 
+            <!-- SCRAPER SECTION -->
+            <div class="scraper-section">
+                <h3>🔗 Web Scraper</h3>
+                <p style="color: #666; margin-bottom: 15px;">Save restaurant links (Google Maps, OpenRice, etc.)</p>
+                
+                <div class="scraper-input-group">
+                    <input type="text" id="scraperLink" placeholder="https://...">
+                    <input type="text" id="scraperCategory" placeholder="Category" value="Mains">
+                    <button class="btn-secondary" onclick="addScraperLink()">➕ Add</button>
+                </div>
+
+                <h4>Saved Links:</h4>
+                <div class="scraper-history" id="scraperHistory">
+                    <p style="color: #999; text-align: center;">No links yet</p>
+                </div>
+
+                <div class="control-group" style="margin-top: 15px;">
+                    <button class="btn-secondary" onclick="scrapeAllLinks()">🔗 Open All</button>
+                </div>
+            </div>
+
             <h3>Filter:</h3>
             <div class="filter-buttons">
                 <button class="filter-btn active" onclick="filterCat('all')">All</button>
@@ -253,7 +251,7 @@
                             <th>Location</th>
                             <th>Address</th>
                             <th>Phone</th>
-                            <th>Times</th>
+                            <th>All-Time Spins</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -309,7 +307,7 @@
                 <input type="text" id="modalPhone">
             </div>
             <div class="control-group">
-                <button class="btn-primary" onclick="save()">💾 Save</button>
+                <button class="btn-primary" onclick="saveRest()">💾 Save</button>
                 <button class="btn-secondary" onclick="closeModal()">Cancel</button>
             </div>
         </div>
@@ -334,23 +332,40 @@
     </div>
 
     <script>
+        // ========== WEEK MANAGEMENT ==========
+        function getWeekStart() {
+            const now = new Date();
+            const day = now.getDay();
+            const diff = now.getDate() - day + (day === 0 ? -6 : 1);
+            return new Date(now.setDate(diff)).toISOString().split('T');
+        }
+
+        function displayWeek() {
+            const weekStart = getWeekStart();
+            const weekEnd = new Date(new Date(weekStart).getTime() + 6 * 24 * 60 * 60 * 1000).toLocaleDateString();
+            document.getElementById('weekDisplay').textContent = `\${new Date(weekStart).toLocaleDateString()} - \${weekEnd}`;
+            return weekStart;
+        }
+
+        // ========== DATA STRUCTURE ==========
+        // spins = [ { weekStart, restaurantId, spinnerName, timestamp }, ... ]
         let restaurants = JSON.parse(localStorage.getItem('restaurants')) || [
-            { id: 1, name: 'Din Tai Fung', food: 'Xiao Long Bao', category: 'Mains', location: 'Tower 1', address: '1 Raffles Link', phone: '+65 6333 8800', timesChosen: 0, locked: false },
-            { id: 2, name: 'Lao Ban Soya Chicken', food: 'Soya Chicken Rice', category: 'Mains', location: 'Food Court', address: '1 Temasek Avenue', phone: '+65 6332 8686', timesChosen: 0, locked: false },
-            { id: 3, name: 'Ichiban Ramen', food: 'Tonkotsu Ramen', category: 'Mains', location: 'Tower 2', address: '1 Temasek Avenue', phone: '+65 6333 3688', timesChosen: 0, locked: false }
+            { id: 1, name: 'Din Tai Fung', food: 'Xiao Long Bao', category: 'Mains', location: 'Tower 1', address: '1 Raffles Link', phone: '+65 6333 8800' },
+            { id: 2, name: 'Lao Ban Soya Chicken', food: 'Soya Chicken Rice', category: 'Mains', location: 'Food Court', address: '1 Temasek Avenue', phone: '+65 6332 8686' },
+            { id: 3, name: 'Ichiban Ramen', food: 'Tonkotsu Ramen', category: 'Mains', location: 'Tower 2', address: '1 Temasek Avenue', phone: '+65 6333 3688' }
         ];
 
+        let spins = JSON.parse(localStorage.getItem('spins')) || [];
+        let scraperLinks = JSON.parse(localStorage.getItem('scraperLinks')) || [];
         let nextId = 4;
         let currentFilter = 'all';
         let selectedCat = 'all';
-        let currentWeek = null;
-        let lastSpinner = '';
 
         function save() {
             localStorage.setItem('restaurants', JSON.stringify(restaurants));
+            localStorage.setItem('spins', JSON.stringify(spins));
+            localStorage.setItem('scraperLinks', JSON.stringify(scraperLinks));
             localStorage.setItem('nextId', nextId);
-            localStorage.setItem('currentWeek', JSON.stringify(currentWeek));
-            localStorage.setItem('lastSpinner', lastSpinner);
         }
 
         function showTab(tab) {
@@ -369,8 +384,15 @@
         }
 
         function renderOptions() {
+            const weekStart = getWeekStart();
+            const thisWeekSpins = spins.filter(s => s.weekStart === weekStart);
+            const lockedIds = new Set(thisWeekSpins.map(s => s.restaurantId));
+            
             const filtered = selectedCat === 'all' ? restaurants : restaurants.filter(r => r.category === selectedCat);
-            const html = filtered.map(r => `<div class="option-card"><strong>${r.name}</strong><small>${r.food}</small></div>`).join('');
+            const html = filtered.map(r => {
+                const isLocked = lockedIds.has(r.id);
+                return `<div class="option-card \${isLocked ? 'locked' : ''}"><strong>\${r.name}</strong><small>\${r.food}\${isLocked ? ' ✓ Taken' : ''}</small></div>`;
+            }).join('');
             document.getElementById('availableOptions').innerHTML = html;
         }
 
@@ -386,14 +408,21 @@
         function spin() {
             const name = document.getElementById('spinnerName').value.trim();
             if (!name) { alert('Enter name'); return; }
-            lastSpinner = name;
             closeName();
-            spinWheel();
+            document.getElementById('spinnerName').value = '';
+            spinWheel(name);
         }
 
-        function spinWheel() {
-            const filtered = selectedCat === 'all' ? restaurants.filter(r => !r.locked) : restaurants.filter(r => r.category === selectedCat && !r.locked);
-            if (filtered.length === 0) { alert('No restaurants available!'); return; }
+        function spinWheel(spinnerName) {
+            const weekStart = getWeekStart();
+            const thisWeekSpins = spins.filter(s => s.weekStart === weekStart);
+            const lockedIds = new Set(thisWeekSpins.map(s => s.restaurantId));
+            
+            const filtered = selectedCat === 'all' 
+                ? restaurants.filter(r => !lockedIds.has(r.id))
+                : restaurants.filter(r => r.category === selectedCat && !lockedIds.has(r.id));
+            
+            if (filtered.length === 0) { alert('All restaurants chosen this week!'); return; }
             
             const spinner = document.getElementById('spinner');
             spinner.classList.remove('spinning');
@@ -402,39 +431,46 @@
             
             setTimeout(() => {
                 const selected = filtered[Math.floor(Math.random() * filtered.length)];
-                selected.locked = true;
-                selected.timesChosen++;
-                currentWeek = selected;
+                const now = new Date();
+                const timestamp = now.toLocaleString();
+                
+                // Record this spin
+                spins.push({
+                    weekStart,
+                    restaurantId: selected.id,
+                    spinnerName,
+                    timestamp
+                });
+                
                 save();
-                showResult(selected);
+                showResult(selected, spinnerName, timestamp);
                 spinner.classList.remove('spinning');
                 render();
             }, 2000);
         }
 
-        function showResult(r) {
+        function showResult(r, spinnerName, timestamp) {
             const html = `
-                <h2 style="color: #4CAF50;">${r.name}</h2>
+                <h2 style="color: #4CAF50;">\${r.name}</h2>
                 <div class="result-details">
-                    <div><strong>Food:</strong> ${r.food}</div>
-                    <div><strong>Location:</strong> ${r.location}</div>
-                    <div><strong>Address:</strong> ${r.address}</div>
-                    <div><strong>Phone:</strong> ${r.phone}</div>
-                    <div><strong>Spun by:</strong> ${lastSpinner}</div>
+                    <div><strong>Food:</strong> \${r.food}</div>
+                    <div><strong>Location:</strong> \${r.location}</div>
+                    <div><strong>Address:</strong> \${r.address}</div>
+                    <div><strong>Phone:</strong> \${r.phone}</div>
+                    <div><strong>Spun by:</strong> \${spinnerName}</div>
+                    <div><strong>Time:</strong> \${timestamp}</div>
                 </div>
                 <div class="result-buttons">
-                    <a href="https://maps.google.com/?q=${encodeURIComponent(r.address)}" target="_blank" class="map-btn">📍 Map</a>
-                    <a href="tel:${r.phone.replace(/\D/g, '')}" class="call-btn">📞 Call</a>
+                    <a href="[https://maps.google.com/?q=](https://maps.google.com/?q=)\${encodeURIComponent(r.address)}" target="_blank" class="map-btn">📍 Map</a>
+                    <a href="tel:\${r.phone.replace(/\D/g, '')}" class="call-btn">📞 Call</a>
                 </div>
             `;
             document.getElementById('result').innerHTML = html;
         }
 
         function resetWeek() {
-            if (confirm('Reset?')) {
-                restaurants.forEach(r => r.locked = false);
-                currentWeek = null;
-                save();
+            if (confirm('Move to next week? (Keeps history)')) {
+                // History is preserved, just render will show empty for new week
                 document.getElementById('result').innerHTML = 'Click SPIN!';
                 render();
             }
@@ -463,8 +499,7 @@
             
             restaurants.push({
                 id: nextId++,
-                name, food, category: cat, location: loc, address: addr, phone: ph,
-                timesChosen: 0, locked: false
+                name, food, category: cat, location: loc, address: addr, phone: ph
             });
             
             save();
@@ -496,43 +531,13 @@
 
         function renderTable() {
             const filtered = currentFilter === 'all' ? restaurants : restaurants.filter(r => r.category === currentFilter);
-            const html = filtered.map(r => `
-                <tr>
-                    <td>${r.name}</td>
-                    <td>${r.category}</td>
-                    <td>${r.food}</td>
-                    <td>${r.location}</td>
-                    <td>${r.address}</td>
-                    <td>${r.phone}</td>
-                    <td>${r.timesChosen}</td>
-                    <td><button class="btn-danger btn-small" onclick="deleteRest(${r.id})">Delete</button></td>
-                </tr>
-            `).join('');
-            document.getElementById('databaseTable').innerHTML = html;
-        }
-
-        function renderWheel() {
-            const html = restaurants.map(r => `
-                <tr>
-                    <td>${r.name}</td>
-                    <td>${r.locked ? 'This Week' : 'Never'}</td>
-                    <td><span class="status-badge ${r.locked ? 'status-locked' : 'status-available'}">${r.locked ? 'Locked' : 'Available'}</span></td>
-                </tr>
-            `).join('');
-            document.getElementById('wheelHistory').innerHTML = html;
-        }
-
-        function render() {
-            renderOptions();
-            renderTable();
-            renderWheel();
-        }
-
-        // Initial render
-        render();
-
-        // Fix function naming
-        window.save = saveRest;
-    </script>
-</body>
-</html>
+            const html = filtered.map(r => {
+                const totalSpins = spins.filter(s => s.restaurantId === r.id).length;
+                return `
+                    <tr>
+                        <td>\${r.name}</td>
+                        <td>\${r.category}</td>
+                        <td>\${r.food}</td>
+                        <td>\${r.location}</td>
+                        <td>\${r.address}</td>
+                
