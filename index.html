@@ -541,7 +541,7 @@
                     <td>\${r.phone}</td>
                     <td>\${r.timesChosen}</td>
                     <td>
-                        <button class="btn-danger btn-small" onclick="deleteRestaurant(\${r.id})">Delete</button>
+                        <button class="btn-danger btn-small" onclick="deleteRestaurant('\${r.id}')">Delete</button>
                     </td>
                 </tr>
             `).join('') || '<tr><td colspan="8" style="text-align:center;">No restaurants</td></tr>';
@@ -603,7 +603,7 @@
 
         function deleteRestaurant(id) {
             if (confirm('Delete this restaurant?')) {
-                restaurants = restaurants.filter(r => r.id !== id);
+                restaurants = restaurants.filter(r => r.id !== parseInt(id));
                 saveData();
                 renderUI();
             }
