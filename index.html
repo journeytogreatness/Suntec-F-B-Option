@@ -803,7 +803,7 @@
             document.getElementById(tabName).classList.add('active');
             
             // Activate clicked button
-            document.querySelector(`[data-tab="\${tabName}"]`).classList.add('active');
+            document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
             
             renderUI();
         }
@@ -836,8 +836,8 @@
             
             const html = filtered.map(r => `
                 <div class="option-card">
-                    <strong>\${r.name}</strong>
-                    <small>\${r.food}</small>
+                    <strong>${r.name}</strong>
+                    <small>${r.food}</small>
                 </div>
             `).join('');
             
